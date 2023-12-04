@@ -26,10 +26,12 @@ const ForgotPassword = () => {
       {/* Back button at the top left */}
       <button
         onClick={handleBack}
-        className="p-2 bg-green-700 text-white text-center cursor-pointer border-none rounded-full flex items-center justify-center ml-2 mt-2 absolute top-0 left-0"
+        className="w-10 h-10 bg-adminAccent text-white text-center cursor-pointer border-none rounded-full flex items-center justify-center ml-2 mt-2 absolute top-0 left-0"
         style={{
-          width: "40px",
-          height: "40px",
+          fontSize: "25px",
+          top: "20px", // Adjusted for moving it up
+          display: "flex",
+          lineHeight: "40px", // Adjust the lineHeight for better alignment
         }}
       >
         {"<"}
@@ -42,7 +44,7 @@ const ForgotPassword = () => {
 
       {/* Container for the form */}
       <div className="pl-5 pt-5">
-        <div className="flex justify-center items-center h-screen-1/2 text-center mb-10">
+        <div className="flex flex-col justify-center items-center h-screen-1/2 text-center mb-10">
           {/* Form content */}
           <form onSubmit={handleSubmit}>
             <div className="mb-4 text-left">

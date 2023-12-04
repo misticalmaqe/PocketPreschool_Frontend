@@ -24,7 +24,7 @@ const LogInPage = () => {
   };
 
   const handleLogin = () => {
-    // Check if the entered value contains "@" and ".com"
+    // Check if the entered value contains "@"
     if (!email.includes("@")) {
       alert(
         "Please enter a valid email address. You are missing a @ from your email."
