@@ -32,13 +32,17 @@ const NavBar = () => {
         padding: "10px",
       }}
     >
-      <NavLink
-        to="/home"
-        className="nav-link"
-        isActive={(match, location) => {
-          return location.pathname.includes("/home");
-        }}
-      >
+      <NavLink to="/home" className="nav-link">
+        {({ isActive }) => (
+          <img
+            src={isActive ? home : homeOff}
+            alt="Home"
+            className="w-[100px]"
+          />
+        )}
+      </NavLink>
+
+      <NavLink to="/activity" className="nav-link">
         {({ isActive }) => (
           <img
             src={isActive ? activity : activityOff}
@@ -48,21 +52,11 @@ const NavBar = () => {
         )}
       </NavLink>
 
-      <NavLink to="/activity" className="nav-link">
+      <NavLink to="/chat" className="nav-link">
         {({ isActive }) => (
           <img
             src={isActive ? chat : chatOff}
             alt="Chat"
-            className="w-[100px]"
-          />
-        )}
-      </NavLink>
-
-      <NavLink to="/chat" className="nav-link">
-        {({ isActive }) => (
-          <img
-            src={isActive ? home : homeOff}
-            alt="Home"
             className="w-[100px]"
           />
         )}
