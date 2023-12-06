@@ -1,7 +1,7 @@
 // NavBar.js
-//--------------REACT--------------//
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import PropTypes from "prop-types";
 
 //--------------COMPONENTS ON--------------//
 import activity from "../Images/icon_activities_active.png";
@@ -14,9 +14,7 @@ import chatOff from "../Images/icon_chat_not_active.png";
 import homeOff from "../Images/icon_home_not_active.png";
 import profileOff from "../Images/icon_profile_not_active.png";
 
-const NavBar = () => {
-  const [isAdmin] = useState(true); // change true to be orange and false to make it green.
-
+const NavBar = ({ isAdmin, onToggleAdmin }) => {
   return (
     <nav
       className={`NavBar ${
@@ -72,10 +70,17 @@ const NavBar = () => {
         )}
       </NavLink>
 
+      <button onClick={onToggleAdmin}>Toggle Admin</button>
+
       {/* Render the child components based on the route */}
       <Outlet />
     </nav>
   );
+};
+
+NavBar.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
+  onToggleAdmin: PropTypes.func.isRequired,
 };
 
 export default NavBar;
