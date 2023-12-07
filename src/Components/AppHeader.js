@@ -1,11 +1,10 @@
 // AppHeader.js
 import { useContext } from 'react';
-import PropTypes from 'prop-types';
 
 //--------------COMPONENTS--------------//
 import { UserContext } from '../Provider/UserProvider';
 
-const AppHeader = ({ children }) => {
+const AppHeader = ({ input }) => {
   const { isAdmin } = useContext(UserContext);
   return (
     <div
@@ -15,7 +14,11 @@ const AppHeader = ({ children }) => {
           : 'bg-parentBackground text-parentText w-100'
       }`}
     >
-      <div className="content-container">{children}</div>
+      <div className="content-container w-full h-20 ">
+        <h1 className="text-[2.5em] text-center pt-[15px] font-bold">
+          {input}
+        </h1>
+      </div>
     </div>
   );
 };

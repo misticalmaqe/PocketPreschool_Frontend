@@ -23,8 +23,13 @@ const LogInPage = () => {
     };
   }, []);
 
-  const handleLogin = async () => {
-    // Check if the entered value contains "@"
+  const handleForgotPassword = () => {
+    // Navigate to the forgot password page ("/forgotpassword")
+    navigate('/forgotpassword');
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
     if (!email.includes('@')) {
       alert(
         'Please enter a valid email address. You are missing a @ from your email.'
@@ -55,16 +60,6 @@ const LogInPage = () => {
         alert('Login failed. Please check your credentials.');
       }
     }
-  };
-
-  const handleForgotPassword = () => {
-    // Navigate to the forgot password page ("/forgotpassword")
-    navigate('/forgotpassword');
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    handleLogin();
   };
 
   if (authenticated) {
