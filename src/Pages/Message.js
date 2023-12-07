@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { io } from "socket.io-client";
+import { UserContext } from "../Provider/UserProvider";
 
 const Message = () => {
+  const { isAdmin } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
 
-  const socket = io("http://localhost:3000/");
+  const socket = io(process.env.REACT_APP_DB_PORT);
 
   const handleSendMessage = useCallback(() => {
     if (inputMessage.trim() !== "") {
@@ -84,7 +86,11 @@ const Message = () => {
       </div>
 
       {/* Input Box for Sending Messages Container */}
-      <div className="flex items-center w-full p-4">
+      <div
+        className={`flex items-center w-full p-4 ${
+          isAdmin ? "bg-adminBackground" : "bg-userBackground"
+        }`}
+      >
         <input
           type="text"
           placeholder="Type your message..."

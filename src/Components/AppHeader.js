@@ -1,8 +1,9 @@
-// AppHeader.js
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import { UserContext } from "../Provider/UserProvider"; // Update the path based on the actual location
 
-const AppHeader = ({ isAdmin, children }) => {
+const AppHeader = ({ children }) => {
+  const { isAdmin } = useContext(UserContext);
+
   return (
     <div
       className={`AppHeader ${
@@ -13,11 +14,6 @@ const AppHeader = ({ isAdmin, children }) => {
       <div className="content-container">{children}</div>
     </div>
   );
-};
-
-AppHeader.propTypes = {
-  isAdmin: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default AppHeader;
