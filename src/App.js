@@ -1,16 +1,18 @@
-// App.js
-import React, { useState } from "react";
+import React from 'react';
 import { Routes, Route, Outlet } from "react-router-dom";
-import NavBar from "./Components/NavBar";
-import HomePage from "./Pages/HomePage";
-import Activity from "./Pages/Activity";
-import Chat from "./Pages/Chat";
-import Message from "./Pages/Message";
-import ProfilePage from "./Pages/ProfilePage";
-import SignUpPage from "./Pages/SignUpPage";
-import ErrorPage from "./Pages/ErrorPage";
-import LogInPage from "./Pages/LogInPage";
-import ForgotPassword from "./Pages/ForgotPassword";
+import UserProvider from './Provider/UserProvider';
+
+//--------------COMPONENTS--------------//
+import NavBar from './Components/NavBar';
+import HomePage from './Pages/HomePage';
+import Activity from './Pages/Activity';
+import Chat from './Pages/Chat';
+import Message from './Pages/Message';
+import ProfilePage from './Pages/ProfilePage';
+import SignUpPage from './Pages/SignUpPage';
+import ErrorPage from './Pages/ErrorPage';
+import LogInPage from './Pages/LogInPage';
+import ForgotPassword from './Pages/ForgotPassword';
 import StudentList from "./Components/StudentList";
 import Attendance from "./Components/Attendance";
 import LeaveApplication from "./Components/StaffLeaveApplication";
@@ -18,54 +20,42 @@ import CreateParentAccount from "./Components/CreateParentAccount";
 import Settings from "./Components/Setting";
 //import updateFeature from "./Pages/updateFeature";
 
+// Create a new component for the layout without NavBar
+const ChatLayout = ({ children }) => {
+  return <div>{children}</div>;
+};
+
 const App = () => {
-  const [isAdmin, setIsAdmin] = useState(true);
-
-  const toggleAdmin = () => {
-    setIsAdmin((prevIsAdmin) => !prevIsAdmin);
-  };
-
   return (
-    <div>
+    <UserProvider>
       <Routes>
         <Route path="/" element={<LogInPage />} />
         <Route path="/forgetpassword" element={<ForgotPassword />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<ErrorPage />} />
-        <Route path="/updatefeature" element={<updateFeature />} />
-        <Route
-          path="/home"
-          element={<HomePage isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />}
-        />
-        <Route
-          path="/activity"
-          element={<Activity isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />}
-        />
+       <Route path="/updatefeature" element={<updateFeature />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/activity" element={<Activity />} />
+        {/* Use ChatLayout for /chat/Message */}
         <Route
           path="/chat/Message"
           element={
-            <div>
-              <NavBar isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />
-              <Message isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />
-            </div>
+            <ChatLayout>
+              <Message />
+            </ChatLayout>
           }
         />
         <Route
           path="/chat"
           element={
             <div>
-              <NavBar isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />
-              <Chat isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />
+              <NavBar />
+              <Chat />
             </div>
           }
         />
-        <Route
-          path="/profile"
-          element={
-            <ProfilePage isAdmin={isAdmin} onToggleAdmin={toggleAdmin} />
-          }
-        />
-        <Route path="/profile/student-list" element={<StudentList />} />
+        <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/student-list" element={<StudentList />} />
         <Route path="/profile/attendance" element={<Attendance />} />
         <Route
           path="/profile/leave-application"
@@ -80,7 +70,7 @@ const App = () => {
         {/* Use the Outlet to render child routes */}
         <Route index element={<Outlet />} />
       </Routes>
-    </div>
+    </UserProvider>
   );
 };
 

@@ -1,18 +1,24 @@
-import React, { useContext } from "react";
-import NavBar from "../Components/NavBar";
-import AppHeader from "../Components/AppHeader";
-import { UserContext } from "../Provider/UserProvider"; // Update the path
+// HomePage.js
+import { useEffect, useContext } from 'react';
+
+//--------------COMPONENTS--------------//
+import NavBar from '../Components/NavBar';
+import AppHeader from '../Components/AppHeader';
+import { UserContext } from '../Provider/UserProvider';
 
 const HomePage = () => {
-  const { isAdmin } = useContext(UserContext);
+  const { user, isAdmin } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log(user);
+    console.log(isAdmin);
+  });
 
   return (
-    <div>
-      <AppHeader isAdmin={isAdmin}>
-        <NavBar />
-        <h1 className="text-5xl text-center font-bold">Home</h1>
-      </AppHeader>
-    </div>
+    <AppHeader>
+      <NavBar isAdmin={isAdmin} />
+      <h1 className="text-5xl text-center font-bold">Home</h1>
+    </AppHeader>
   );
 };
 

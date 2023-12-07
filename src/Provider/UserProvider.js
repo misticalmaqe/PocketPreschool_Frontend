@@ -1,37 +1,27 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const UserContext = createContext();
 
 // Define the UserContextProvider component
 const UserContextProvider = ({ children }) => {
-  // State variables for user data and isAdmin
+  // Global State Variables
+  const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const DBPORT = process.env.REACT_APP_DB_PORT;
 
   // Effect hook to run whenever the user changes
-  useEffect(() => {
-    // Function to check if the user is an admin
-    const checkAdminStatus = () => {
-      // Check if there is a user and the user has an "admin" role (customize this based on your actual user data structure)
-      if (user && user.role === "admin") {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-    };
-
-    // Check admin status whenever the user changes
-    checkAdminStatus();
-  }, [user]);
-
-  // Provide the user context to the component tree
+  useEffect(() => {}, [user]);
   return (
     <UserContext.Provider
       value={{
         user,
         setUser,
         isAdmin,
-        setIsAdmin, // Include the setIsAdmin function in the context value
+        setIsAdmin,
+        authenticated,
+        setAuthenticated,
       }}
     >
       {children}
