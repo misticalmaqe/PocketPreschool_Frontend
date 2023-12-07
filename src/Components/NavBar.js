@@ -1,7 +1,6 @@
 // NavBar.js
 import { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import { UserContext } from '../Provider/UserProvider';
 //--------------COMPONENTS ON--------------//
@@ -28,7 +27,7 @@ const NavBar = () => {
           <img
             src={isActive ? home : homeOff}
             alt="Home"
-            className="w-[100px]"
+            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
           />
         )}
       </NavLink>
@@ -38,7 +37,7 @@ const NavBar = () => {
           <img
             src={isActive ? activity : activityOff}
             alt="Activity"
-            className="w-[100px]"
+            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
           />
         )}
       </NavLink>
@@ -48,7 +47,7 @@ const NavBar = () => {
           <img
             src={isActive ? chat : chatOff}
             alt="Chat"
-            className="w-[100px]"
+            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
           />
         )}
       </NavLink>
@@ -58,22 +57,15 @@ const NavBar = () => {
           <img
             src={isActive ? profile : profileOff}
             alt="Profile"
-            className="w-[100px]"
+            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
           />
         )}
       </NavLink>
-
-      {/* <button onClick={onToggleAdmin}>Toggle Admin</button> */}
 
       {/* Render the child components based on the route */}
       <Outlet />
     </nav>
   );
-};
-
-NavBar.propTypes = {
-  isAdmin: PropTypes.bool.isRequired,
-  onToggleAdmin: PropTypes.func.isRequired,
 };
 
 export default NavBar;

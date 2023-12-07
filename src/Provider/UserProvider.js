@@ -13,7 +13,6 @@ const UserContextProvider = ({ children }) => {
 
   // Effect hook to run whenever the user changes
   useEffect(() => {}, [user]);
-
   return (
     <UserContext.Provider
       value={{
@@ -29,4 +28,5 @@ const UserContextProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
 export default UserContextProvider;

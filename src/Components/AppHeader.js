@@ -20,8 +20,4 @@ const AppHeader = ({ children }) => {
   );
 };
 
-AppHeader.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 export default AppHeader;
