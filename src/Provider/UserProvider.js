@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
 
 export const UserContext = createContext();
 
@@ -9,7 +8,8 @@ const UserContextProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const DBPORT = process.env.REACT_APP_DB_PORT;
+  const [newsLetters, setNewsLetters] = useState([]);
+  const [newsImgs, setNewsImgs] = useState([]);
 
   // Effect hook to run whenever the user changes
   useEffect(() => {}, [user]);
@@ -22,6 +22,10 @@ const UserContextProvider = ({ children }) => {
         setIsAdmin,
         authenticated,
         setAuthenticated,
+        newsLetters,
+        setNewsLetters,
+        newsImgs,
+        setNewsImgs,
       }}
     >
       {children}
