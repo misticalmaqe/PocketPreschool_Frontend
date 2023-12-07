@@ -1,14 +1,19 @@
 // AppHeader.js
-import React from "react";
-import PropTypes from "prop-types";
+import { useContext } from 'react';
+import PropTypes from 'prop-types';
 
-const AppHeader = ({ isAdmin, children }) => {
+//--------------COMPONENTS--------------//
+import { UserContext } from '../Provider/UserProvider';
+
+const AppHeader = ({ children }) => {
+  const { isAdmin } = useContext(UserContext);
   return (
     <div
       className={`AppHeader ${
-        isAdmin ? "bg-adminBackground" : "bg-parentBackground"
+        isAdmin
+          ? 'bg-adminBackground w-100 text-adminText'
+          : 'bg-parentBackground text-parentText w-100'
       }`}
-      style={{ width: "100%" }}
     >
       <div className="content-container">{children}</div>
     </div>
@@ -16,7 +21,6 @@ const AppHeader = ({ isAdmin, children }) => {
 };
 
 AppHeader.propTypes = {
-  isAdmin: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
 

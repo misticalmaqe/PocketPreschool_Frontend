@@ -1,34 +1,27 @@
 // NavBar.js
-import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useContext } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
+import { UserContext } from '../Provider/UserProvider';
 //--------------COMPONENTS ON--------------//
-import activity from "../Images/icon_activities_active.png";
-import chat from "../Images/icon_chat_active.png";
-import home from "../Images/icon_home_active.png";
-import profile from "../Images/icon_profile_active.png";
+import activity from '../Images/icon_activities_active.png';
+import chat from '../Images/icon_chat_active.png';
+import home from '../Images/icon_home_active.png';
+import profile from '../Images/icon_profile_active.png';
 //--------------COMPONENTS OFF--------------//
-import activityOff from "../Images/icon_activities_not_active.png";
-import chatOff from "../Images/icon_chat_not_active.png";
-import homeOff from "../Images/icon_home_not_active.png";
-import profileOff from "../Images/icon_profile_not_active.png";
+import activityOff from '../Images/icon_activities_not_active.png';
+import chatOff from '../Images/icon_chat_not_active.png';
+import homeOff from '../Images/icon_home_not_active.png';
+import profileOff from '../Images/icon_profile_not_active.png';
 
-const NavBar = ({ isAdmin, onToggleAdmin }) => {
+const NavBar = () => {
+  const { isAdmin } = useContext(UserContext);
   return (
     <nav
       className={`NavBar ${
-        isAdmin ? "bg-adminBackground" : "bg-parentBackground"
-      }`}
-      style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-evenly",
-        padding: "10px",
-      }}
+        isAdmin ? 'bg-adminBackground' : 'bg-parentBackground'
+      } fixed bottom-0 w-full flex justify-evenly p-[10px]`}
     >
       <NavLink to="/home" className="nav-link">
         {({ isActive }) => (
@@ -70,7 +63,7 @@ const NavBar = ({ isAdmin, onToggleAdmin }) => {
         )}
       </NavLink>
 
-      <button onClick={onToggleAdmin}>Toggle Admin</button>
+      {/* <button onClick={onToggleAdmin}>Toggle Admin</button> */}
 
       {/* Render the child components based on the route */}
       <Outlet />
