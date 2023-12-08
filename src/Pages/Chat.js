@@ -1,5 +1,3 @@
-// Chat.js
-
 import React, { useState, useEffect, useContext } from "react";
 import apiRequest from "../Api/index";
 import NavBar from "../Components/NavBar";
@@ -8,17 +6,33 @@ import Message from "../Pages/Message";
 import { UserContext } from "../Provider/UserProvider";
 
 const Chat = () => {
-  const { isAdmin, user } = useContext(UserContext);
+  const { isAdmin, user, setUser } = useContext(UserContext);
   const [chatrooms, setChatrooms] = useState([]);
   const [selectedChatroomId, setSelectedChatroomId] = useState(null);
+  const BEURL = process.env.REACT_APP_BE_URL;
+
+  useEffect(() => {
+    // Your logic to determine if user should be set as true or false
+    const shouldSetUserAsTrue = true; // Replace with your condition
+
+    if (shouldSetUserAsTrue) {
+      setUser(true);
+    } else {
+      setUser(false);
+    }
+  }, [setUser]);
 
   useEffect(() => {
     const fetchChatrooms = async () => {
       try {
-        if (user) {
-          // Use apiRequest to make the API request
+        if (isAdmin && user && user.id) {
           const response = await apiRequest.get(
-            `/api/chatrooms/${user.id}/${isAdmin ? "teacher" : "student"}`
+            `${BEURL}/chat/teacher/${user.id}`
+          );
+          setChatrooms(response.data);
+        } else if (user && user.id) {
+          const response = await apiRequest.get(
+            `${BEURL}/chat/student/${user.id}`
           );
           setChatrooms(response.data);
         }
@@ -28,11 +42,7 @@ const Chat = () => {
     };
 
     fetchChatrooms();
-  }, [user, isAdmin]);
-
-  const handleChatroomSelect = (chatroomId) => {
-    setSelectedChatroomId(chatroomId);
-  };
+  }, [user, isAdmin, BEURL]);
 
   return (
     <div>
@@ -46,9 +56,16 @@ const Chat = () => {
             {chatrooms.map((chatroom) => (
               <li
                 key={chatroom.id}
-                onClick={() => handleChatroomSelect(chatroom.id)}
+                onClick={() => setSelectedChatroomId(chatroom.id)}
               >
-                {chatroom.name}
+                {/* Display the properties of each chatroom */}
+                <ul>
+                  {Object.entries(chatroom).map(([key, value]) => (
+                    <li key={key}>
+                      <strong>{key}:</strong> {JSON.stringify(value)}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
@@ -66,9 +83,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
-// Based on auth get the teacher and parents chatrooms and display them
-//onlick on the chatroom
-//navigate to the ${chatroomId}/messgae
-//take the chatroomId from backend
-//need to store and call on the chatrooms individually
