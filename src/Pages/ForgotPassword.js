@@ -1,71 +1,60 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import logoImage from "../Images/logo.png";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import logoImage from '../Images/logo.png';
+import Back from '../Images/back_parent.png';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const [email, setEmail] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(
-      "Your password has been sent to your email address that you have provided."
+      'Your password has been sent to your email address that you have provided.'
     );
   };
 
   const handleBack = () => {
-    navigate("/");
+    navigate('/');
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center bg-background h-screen text-text">
+    <div className="flex flex-col items-center justify-start bg-white h-screen text-text pt-[100px]">
       {/* Back button at the top left */}
-      <button
+      <img
+        src={Back}
+        alt="PocketPreschool logo"
+        className="absolute top-5 left-5 w-10"
         onClick={handleBack}
-        className="w-10 h-10 bg-adminAccent text-white text-center cursor-pointer border-none rounded-full flex items-center justify-center ml-2 mt-2 absolute top-0 left-0"
-        style={{
-          fontSize: "25px",
-          top: "20px", // Adjusted for moving it up
-          display: "flex",
-          lineHeight: "40px", // Adjust the lineHeight for better alignment
-        }}
-      >
-        {"<"}
-      </button>
+      />
 
       {/* Container for logoImage */}
-      <div className="mb-5">
-        <img src={logoImage} alt="PocketPreschool logo" className="w-80" />
-      </div>
-
+      <img src={logoImage} alt="PocketPreschool logo" className="w-80" />
       {/* Container for the form */}
-      <div className="pl-5 pt-5">
-        <div className="flex flex-col justify-center items-center h-screen-1/2 text-center mb-10">
+      <div className="pt-5">
+        <div className="flex flex-col justify-center items-center text-center font-bold text-black mb-10">
           {/* Form content */}
           <form onSubmit={handleSubmit}>
-            <div className="mb-4 text-left">
+            <div className="mb-4 text-left font-bold">
               <label>Email:</label>
               <br />
               <input
-                id="email"
                 type="email"
                 value={email}
-                onChange={handleEmailChange}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 required
-                className="w-full p-4 bg-orange-100 border-none rounded-full box-border"
+                className="w-full h-7 mt-2 mb-8 p-5 bg-adminBackground border-none rounded-10 box-border rounded-xl"
               />
             </div>
             <button
               type="submit"
-              className="w-full p-4 bg-green-700 text-white cursor-pointer border-none rounded-full mx-auto flex items-center justify-center"
+              className="w-full h-7 bg-adminAccent text-white p-5 border-none rounded-xl cursor-pointer mb-2 flex items-center justify-center"
             >
               Send
             </button>
-            <p className="mt-2">
+            <p className="mt-8 font-light italic">
               Your new password will be sent to your email.
             </p>
           </form>

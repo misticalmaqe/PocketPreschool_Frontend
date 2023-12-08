@@ -1,11 +1,19 @@
 // AppHeader.js
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //--------------COMPONENTS--------------//
 import { UserContext } from '../Provider/UserProvider';
+import Add from '../Images/add_button.png';
 
-const AppHeader = ({ input }) => {
+const AppHeader = ({ input, navigateLoc }) => {
   const { isAdmin } = useContext(UserContext);
+
+  const navigate = useNavigate();
+  const navigateTo = () => {
+    navigate(navigateLoc);
+  };
+
   return (
     <div
       className={`AppHeader ${
@@ -19,6 +27,16 @@ const AppHeader = ({ input }) => {
           {input}
         </h1>
       </div>
+      {isAdmin === true ? (
+        <img
+          src={Add}
+          alt="PocketPreschool logo"
+          className="absolute top-8 right-7 w-10"
+          onClick={navigateTo}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

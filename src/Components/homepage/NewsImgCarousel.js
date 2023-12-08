@@ -19,10 +19,10 @@ export function NewsImgCarousel({ newsLetterId }) {
   }, []);
 
   return (
-    <div className="carousel ">
+    <div className="carousel mx-[10px]">
       {newsImgs.map((imgs) =>
         imgs.newsLettersId === id ? (
-          <div key={imgs.id} className="carousel-item w-1/3">
+          <div key={imgs.id} className="carousel-item w-2/3">
             <img src={imgs.url} alt="img" className="w-full" />
           </div>
         ) : (
