@@ -25,14 +25,9 @@ const Chat = () => {
   useEffect(() => {
     const fetchChatrooms = async () => {
       try {
-        if (isAdmin && user && user.id) {
+        if (user && user.id) {
           const response = await apiRequest.get(
-            `${BEURL}/chat/teacher/${user.id}`
-          );
-          setChatrooms(response.data);
-        } else if (user && user.id) {
-          const response = await apiRequest.get(
-            `${BEURL}/chat/student/${user.id}`
+            `${BEURL}/chat/${isAdmin ? "teacher" : "student"}/${user.id}`
           );
           setChatrooms(response.data);
         }
