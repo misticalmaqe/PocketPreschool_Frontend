@@ -15,7 +15,7 @@ const HomePage = () => {
   });
 
   return (
-    <div>
+    <div className="bg-white h-screen">
       <AppHeader input="Home" />
       <NewsLetters />
       <NavBar />

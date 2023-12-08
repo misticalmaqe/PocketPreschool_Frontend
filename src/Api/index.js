@@ -30,6 +30,7 @@ const apiRequest = axios.create({
 //         { authTokenLocal, refreshTokenLocal }
 //       );
 //       // remove localstorage items
+//       //do console.log for response.data
 //       if (response.data.success === false) {
 //         localStorage.removeItem('authToken');
 //         localStorage.removeItem('refreshToken');
