@@ -1,6 +1,6 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import UserProvider from './Provider/UserProvider';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import UserProvider from "./Provider/UserProvider";
 
 //--------------COMPONENTS--------------//
 import HomePage from './Pages/HomePage';
@@ -20,7 +20,7 @@ import Settings from './Components/Setting';
 //import updateFeature from "./Pages/updateFeature";
 
 //--------------STYLING--------------//
-import './App.css';
+import "./App.css";
 
 const App = () => {
   return (
@@ -35,7 +35,7 @@ const App = () => {
         <Route path="/activity" element={<Activity />} />
         {/* Use ChatLayout for /chat/Message */}
         <Route path="/chat" element={<Chat />}>
-          <Route path="Message" element={<Message />} />
+          <Route path=":chatroomId/Message" element={<Message />} />
         </Route>
         <Route path="/profile" element={<ProfilePage />}>
           <Route path="student-list" element={<StudentList />} />
