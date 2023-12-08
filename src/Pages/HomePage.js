@@ -5,6 +5,7 @@ import { useEffect, useContext } from 'react';
 import NavBar from '../Components/NavBar';
 import AppHeader from '../Components/AppHeader';
 import { UserContext } from '../Provider/UserProvider';
+import { NewsLetters } from '../Components/homepage/NewsLetters';
 
 const HomePage = () => {
   const { user } = useContext(UserContext);
@@ -14,9 +15,9 @@ const HomePage = () => {
   });
 
   return (
-    <div>
+    <div className="bg-white h-screen">
       <AppHeader input="Home" />
-      <div className=""></div>
+      <NewsLetters />
       <NavBar />
     </div>
   );

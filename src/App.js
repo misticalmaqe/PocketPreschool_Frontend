@@ -3,21 +3,20 @@ import { Routes, Route } from "react-router-dom";
 import UserProvider from "./Provider/UserProvider";
 
 //--------------COMPONENTS--------------//
-// import NavBar from './Components/NavBar';
-import HomePage from "./Pages/HomePage";
-import Activity from "./Pages/Activity";
-import Chat from "./Pages/Chat";
-import Message from "./Pages/Message";
-import ProfilePage from "./Pages/ProfilePage";
-import SignUpPage from "./Pages/SignUpPage";
-import ErrorPage from "./Pages/ErrorPage";
-import LogInPage from "./Pages/LogInPage";
-import ForgotPassword from "./Pages/ForgotPassword";
-import StudentList from "./Components/StudentList";
-import Attendance from "./Components/Attendance";
-import LeaveApplication from "./Components/StaffLeaveApplication";
-import CreateParentAccount from "./Components/CreateParentAccount";
-import Settings from "./Components/Setting";
+import HomePage from './Pages/HomePage';
+import Activity from './Pages/Activity';
+import Chat from './Pages/Chat';
+import Message from './Pages/Message';
+import ProfilePage from './Pages/ProfilePage';
+import SignUpPage from './Pages/SignUpPage';
+import ErrorPage from './Pages/ErrorPage';
+import LogInPage from './Pages/LogInPage';
+import ForgotPassword from './Pages/ForgotPassword';
+import StudentList from './Components/StudentList';
+import Attendance from './Components/Attendance';
+import LeaveApplication from './Components/StaffLeaveApplication';
+import CreateParentAccount from './Components/CreateParentAccount';
+import Settings from './Components/Setting';
 //import updateFeature from "./Pages/updateFeature";
 
 //--------------STYLING--------------//
