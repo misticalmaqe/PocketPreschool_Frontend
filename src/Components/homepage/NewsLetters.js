@@ -1,31 +1,31 @@
-import { useEffect, useContext } from 'react';
-import { UserContext } from '../../Provider/UserProvider';
-import apiRequest from '../../Api';
+import { useEffect, useContext } from "react";
+import { UserContext } from "../../Provider/UserProvider";
+import apiRequest from "../../Api";
 
 //--------------COMPONENTS--------------//
-import { NewsImgCarousel } from './NewsImgCarousel';
+import { NewsImgCarousel } from "./NewsImgCarousel";
 
 export function NewsLetters() {
   const BEURL = process.env.REACT_APP_BE_URL;
   const { newsLetters, setNewsLetters, isAdmin } = useContext(UserContext);
 
   //create function to get newsletters and imgs and put it inside state
-  const getNewsLetters = async () => {
-    const newsLettersData = await apiRequest.get(`${BEURL}/newsletter`);
-    setNewsLetters(newsLettersData.data);
-  };
+  // const getNewsLetters = async () => {
+  //   const newsLettersData = await apiRequest.get(`${BEURL}/newsletter`);
+  //   setNewsLetters(newsLettersData.data);
+  // };
 
   //useEffect to initialize function to get data from BE
-  useEffect(() => {
-    getNewsLetters();
-  }, []);
+  // useEffect(() => {
+  //   getNewsLetters();
+  // }, []);
 
   return (
     <div
       className={`${
         isAdmin
-          ? 'w-50 text-adminText border-adminText'
-          : 'w-50 text-parentText border-parentText'
+          ? "w-50 text-adminText border-adminText"
+          : "w-50 text-parentText border-parentText"
       }  `}
     >
       {newsLetters.map((newsletter) => (
@@ -40,8 +40,8 @@ export function NewsLetters() {
           <hr
             className={`${
               isAdmin
-                ? 'my-[2px] rounded-full border-[0.1em] border-adminText'
-                : 'my-[2px] rounded-full border-[0.1em] border-parentText'
+                ? "my-[2px] rounded-full border-[0.1em] border-adminText"
+                : "my-[2px] rounded-full border-[0.1em] border-parentText"
             }`}
           />
         </div>
