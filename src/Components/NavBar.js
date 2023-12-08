@@ -7,12 +7,12 @@ import { UserContext } from '../Provider/UserProvider';
 import activity from '../Images/icon_activities_active.png';
 import chat from '../Images/icon_chat_active.png';
 import home from '../Images/icon_home_active.png';
-import profile from '../Images/icon_profile_active.png';
+import profile from '../Images/icon_profile_active02.png';
 //--------------COMPONENTS OFF--------------//
 import activityOff from '../Images/icon_activities_not_active.png';
 import chatOff from '../Images/icon_chat_not_active.png';
 import homeOff from '../Images/icon_home_not_active.png';
-import profileOff from '../Images/icon_profile_not_active.png';
+import profileOff from '../Images/icon_profile_not_active02.png';
 
 const NavBar = () => {
   const { isAdmin } = useContext(UserContext);
@@ -24,11 +24,7 @@ const NavBar = () => {
     >
       <NavLink to="/home" className="nav-link">
         {({ isActive }) => (
-          <img
-            src={isActive ? home : homeOff}
-            alt="Home"
-            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
-          />
+          <img src={isActive ? home : homeOff} alt="Home" className="w-[7em]" />
         )}
       </NavLink>
 
@@ -37,18 +33,14 @@ const NavBar = () => {
           <img
             src={isActive ? activity : activityOff}
             alt="Activity"
-            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
+            className="w-[7em]"
           />
         )}
       </NavLink>
 
       <NavLink to="/chat" className="nav-link">
         {({ isActive }) => (
-          <img
-            src={isActive ? chat : chatOff}
-            alt="Chat"
-            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
-          />
+          <img src={isActive ? chat : chatOff} alt="Chat" className="w-[7em]" />
         )}
       </NavLink>
 
@@ -57,7 +49,7 @@ const NavBar = () => {
           <img
             src={isActive ? profile : profileOff}
             alt="Profile"
-            style={{ maxWidth: "100px" }} // Set max width to 20 pixels
+            className="w-[7em]"
           />
         )}
       </NavLink>

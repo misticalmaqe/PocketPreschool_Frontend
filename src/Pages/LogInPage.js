@@ -10,7 +10,7 @@ import { UserContext } from '../Provider/UserProvider';
 
 const LogInPage = () => {
   const navigate = useNavigate();
-  const DBPORT = process.env.REACT_APP_DB_PORT;
+  const BEURL = process.env.REACT_APP_BE_URL;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { authenticated, setAuthenticated, setUser, setIsAdmin } =
@@ -36,7 +36,7 @@ const LogInPage = () => {
       );
     } else {
       try {
-        const response = await axios.post(`${DBPORT}/user/jwtsignin`, {
+        const response = await axios.post(`${BEURL}/user/jwtsignin`, {
           email,
           password,
         });
