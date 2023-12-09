@@ -1,9 +1,9 @@
 import { useEffect, useContext } from 'react';
 import { UserContext } from '../../Provider/UserProvider';
-import apiRequest from '../../Api';
 
 //--------------COMPONENTS--------------//
 import { NewsImgCarousel } from './NewsImgCarousel';
+import apiRequest from '../../Api';
 
 export function NewsLetters() {
   const BEURL = process.env.REACT_APP_BE_URL;
@@ -34,14 +34,12 @@ export function NewsLetters() {
         >
           <div className="flex font-bold justify-between">
             <h1 className=" px-[10px]  m-[10px]">{newsletter.title}</h1>
-            {newsletter.dateTime === null ? (
+            {newsletter.date === null ? (
               <></>
             ) : (
               <h1 className="px-[10px] m-[10px]">
-                {new Date(newsletter.dateTime).toLocaleString('en-GB', {
+                {new Date(newsletter.date).toLocaleString('en-GB', {
                   timeZone: 'Asia/Singapore',
-                  hour: '2-digit',
-                  minute: '2-digit',
                   day: '2-digit',
                   month: '2-digit',
                   year: 'numeric',
@@ -57,8 +55,8 @@ export function NewsLetters() {
           <hr
             className={`${
               isAdmin
-                ? 'my-[2px] rounded-full border-[0.1em] border-adminText'
-                : 'my-[2px] rounded-full border-[0.1em] border-parentText'
+                ? 'mt-[2px] rounded-full border-[0.1em] border-adminText'
+                : 'mt-[2px] rounded-full border-[0.1em] border-parentText'
             }`}
           />
         </div>
@@ -66,42 +64,3 @@ export function NewsLetters() {
     </div>
   );
 }
-
-// {
-//   personalGroups.map((groupItem) => (
-//     <div
-//       key={groupItem.id}
-//       className="m-[30px] flex flex-col bg-window p-[20px] shadow-lg shadow-text hover:translate-y-[-2px]"
-//     >
-//       <h1 className="text-text rounded-md pl-[5px] text-[22px] font-bold">
-//         {groupItem.groupName}
-//       </h1>
-//       {personalPwBooks.map((pwBooksItem) => (
-//         <div>
-//           {pwBooksItem.groupAccountId === groupItem.id ? (
-//             <div
-//               key={pwBooksItem.id}
-//               className="text-text pl-[5px] text-[18px] font-semibold "
-//             >
-//               <hr className="my-[10px] border-[1.3px] border-accent" />
-//               {!pwBooksItem.userName ? null : (
-//                 <h1>UserName: {pwBooksItem.userName}</h1>
-//               )}
-//               {!pwBooksItem.email ? null : <h1>Email: {pwBooksItem.email}</h1>}
-//               <div className="flex flex-col items-start">
-//                 <h1>Password: </h1>
-//                 <Eyes password={pwBooksItem.password} />
-//                 <div className="ml-auto">
-//                   <PersonalDeletePwBookEntry
-//                     pwbookId={pwBooksItem.id}
-//                     groupAccountId={groupItem.id}
-//                   />
-//                 </div>
-//               </div>
-//             </div>
-//           ) : null}
-//         </div>
-//       ))}
-//     </div>
-//   ));
-// }
