@@ -11,10 +11,16 @@ export function NewsLetters() {
 
   // useEffect to initialize function to get data from BE
   useEffect(() => {
-    // create function to get newsletters and imgs and put it inside state
     const getNewsLetters = async () => {
       const newsLettersData = await apiRequest.get(`${BEURL}/newsletter`);
-      setNewsLetters(newsLettersData.data);
+      // Sort the newsletters by createdAt in descending order (latest first)
+      const sortedNewsLetters = newsLettersData.data.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        }
+        return 0;
+      });
+      setNewsLetters(sortedNewsLetters);
     };
     getNewsLetters();
   }, []);
