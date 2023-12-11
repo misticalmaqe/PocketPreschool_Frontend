@@ -22,7 +22,7 @@ export function NewsImgCarousel({ newsLetterId }) {
     <div className="carousel mx-[10px] max-h-[200px]">
       {newsImgs.map((imgs) =>
         imgs.newsLettersId === id ? (
-          <div key={imgs.id} className="carousel-item w-full">
+          <div key={imgs.id} className="carousel-item">
             <img src={imgs.url} alt="img" className="h-full" />
           </div>
         ) : (
