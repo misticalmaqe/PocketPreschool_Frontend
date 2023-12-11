@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import apiRequest from '../Api/index';
+import { jwtDecode } from 'jwt-decode';
 
 export const UserContext = createContext();
 
@@ -11,20 +12,53 @@ const UserContextProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [newsLetters, setNewsLetters] = useState([]);
   const [newsImgs, setNewsImgs] = useState([]);
+  const [classActivity, setClassActivity] = useState([]);
+  const [classActImgs, setClassActImgs] = useState([]);
   const [child, setChild] = useState([]);
   const BEURL = process.env.REACT_APP_BE_URL;
 
-  //get children info
-  const fetchChildrenInfo = async () => {
+  //set user based on local storage
+  const userDetails = () => {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken !== null) {
+      const decoded = jwtDecode(authToken);
+      setUser({ id: decoded.id, email: decoded.email }); // Set the user using the decoded token payload
+      setIsAdmin(decoded.isAdmin);
+      setAuthenticated(true);
+    }
+  };
+
+  //-----------FOR TEACHER-----------//
+  //function to get children info for teacher
+  const fetchChildrenInfoTeacher = async () => {
+    //get the grade first
+    const getGrade = await apiRequest.get(`${BEURL}/teacherclass/${user.id}`);
+    //get children based on the grade they're in
+    const getChildren = await apiRequest.get(
+      `${BEURL}/user/childg/${getGrade.data}`
+    );
+    const allChildren = getChildren.data;
+    setChild(allChildren);
+  };
+
+  //-----------FOR PARENT-----------//
+  //function to get children info for parent
+  const fetchChildrenInfoParent = async () => {
     const childrenRes = await apiRequest.get(`${BEURL}/user/child/${user.id}`);
     setChild(childrenRes.data);
   };
 
   useEffect(() => {
-    if (isAdmin === false && authenticated === true) {
-      fetchChildrenInfo();
+    userDetails();
+  }, []);
+
+  useEffect(() => {
+    if (isAdmin && authenticated) {
+      fetchChildrenInfoTeacher();
+    } else if (!isAdmin && authenticated) {
+      fetchChildrenInfoParent();
     }
-  }, [user]);
+  }, [isAdmin, authenticated]);
 
   return (
     <UserContext.Provider
@@ -41,6 +75,10 @@ const UserContextProvider = ({ children }) => {
         setNewsImgs,
         child,
         setChild,
+        classActivity,
+        setClassActivity,
+        classActImgs,
+        setClassActImgs,
       }}
     >
       {children}

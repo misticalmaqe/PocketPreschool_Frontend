@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
-import { UserContext } from '../../Provider/UserProvider';
 
 //--------------COMPONENTS--------------//
+import { UserContext } from '../../Provider/UserProvider';
 import { NewsImgCarousel } from './NewsImgCarousel';
 import apiRequest from '../../Api';
 
@@ -23,7 +23,7 @@ export function NewsLetters() {
       setNewsLetters(sortedNewsLetters);
     };
     getNewsLetters();
-  }, []);
+  }, [BEURL, setNewsLetters]);
 
   return (
     <div
