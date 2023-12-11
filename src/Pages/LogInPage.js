@@ -66,40 +66,36 @@ const LogInPage = () => {
     return <Navigate to="/home" />;
   } else {
     return (
-      <div className="flex flex-col items-center justify-center bg-background h-screen text-text">
+      <div className="flex flex-col items-center justify-start bg-white h-screen text-black pt-[100px]">
         {/* Container for logoImage */}
-        <div className="mb-5">
-          <img src={logoImage} alt="PocketPreschool logo" className="w-80" />
-        </div>
+        <img src={logoImage} alt="PocketPreschool logo" className="w-80" />
         <div className="flex justify-center items-center text-center w-full">
           {/* Adjusted the height in the following line */}
           <form onSubmit={handleFormSubmit}>
             {/* Container for Email and Password */}
-            <div className="mb-7 text-left">
+            <div className="mb-7 text-left font-bold">
               <label>Email:</label>
               <br />
               <input
-                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 required
-                className="w-full h-7 mb-3 p-5 bg-adminBackground border-none rounded-10 box-border"
+                className="w-full h-7 mt-2 mb-8 p-5 bg-adminBackground border-none rounded-10 box-border rounded-xl"
               />
               <br />
-              <label htmlFor="password">Password:</label>
+              <label>Password:</label>
               <br />
               <input
-                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
                 required
-                className="w-full h-7 mb-3 p-5 bg-adminBackground border-none rounded-10 box-border"
+                className="w-full h-7 mt-2 mb-5 p-5 bg-adminBackground border-none rounded-10 box-border rounded-xl"
               />
             </div>
 
@@ -107,18 +103,17 @@ const LogInPage = () => {
             <div className="text-left">
               <button
                 type="submit"
-                className="w-full h-7 bg-adminAccent text-white p-5 border-none rounded-10 cursor-pointer mb-2 flex items-center justify-center"
+                className="w-full h-7 bg-adminAccent text-white p-5 border-none rounded-xl cursor-pointer mb-2 flex items-center justify-center"
               >
                 Sign In
               </button>
               <br />
-              <button
-                type="button"
+              <h1
                 onClick={handleForgotPassword}
-                className="w-full h-7 bg-transparent p-5 border-none rounded-10 cursor-pointer flex items-center justify-center"
+                className="w-full cursor-pointer text-center"
               >
                 Forgot Password?
-              </button>
+              </h1>
             </div>
           </form>
         </div>
