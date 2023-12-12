@@ -8,18 +8,19 @@ import { UserContext } from '../Provider/UserProvider';
 import { NewsLetters } from '../Components/homepage/NewsLetters';
 
 const HomePage = () => {
-  const { user, child } = useContext(UserContext);
+  const { user, child, classActivity } = useContext(UserContext);
   const location = '/home/post';
 
   useEffect(() => {
     console.log(user);
     console.log(child);
-  }, []);
+    console.log(classActivity);
+  }, [user, child, classActivity]);
 
   return (
     <div className="bg-white h-screen">
       <AppHeader input="Home" navigateLoc={location} />
-      <div className="w-80% pb-[123px] flex justify-center">
+      <div className="pb-[123px] flex justify-center">
         <NewsLetters />
       </div>
       <NavBar />

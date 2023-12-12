@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react';
+import axios from 'axios';
 
 //--------------COMPONENTS--------------//
 import { UserContext } from '../../Provider/UserProvider';
@@ -7,30 +8,37 @@ import apiRequest from '../../Api';
 
 export function NewsLetters() {
   const BEURL = process.env.REACT_APP_BE_URL;
-  const { newsLetters, setNewsLetters, isAdmin } = useContext(UserContext);
+  const { newsLetters, setNewsLetters, isAdmin, user, authenticated } =
+    useContext(UserContext);
+
+  //function to get news letters from BE
+  const getNewsLetters = async () => {
+    const newsLettersData = await axios.get(`${BEURL}/newsletter`, {
+      headers: { Authorization: localStorage.getItem('authToken') },
+    });
+    // Sort the newsletters by createdAt in descending order (latest first)
+    const sortedNewsLetters = newsLettersData.data.sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      return 0;
+    });
+    setNewsLetters(sortedNewsLetters);
+  };
 
   // useEffect to initialize function to get data from BE
   useEffect(() => {
-    const getNewsLetters = async () => {
-      const newsLettersData = await apiRequest.get(`${BEURL}/newsletter`);
-      // Sort the newsletters by createdAt in descending order (latest first)
-      const sortedNewsLetters = newsLettersData.data.sort((a, b) => {
-        if (a.createdAt && b.createdAt) {
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        }
-        return 0;
-      });
-      setNewsLetters(sortedNewsLetters);
-    };
-    getNewsLetters();
-  }, [BEURL, setNewsLetters]);
+    if (authenticated === true && user && user.id) {
+      getNewsLetters();
+    }
+  }, [user, setNewsLetters]);
 
   return (
     <div
       className={`${
         isAdmin
-          ? "w-50 text-adminText border-adminText"
-          : "w-50 text-parentText border-parentText"
+          ? 'grow text-adminText border-adminText'
+          : 'grow text-parentText border-parentText'
       }  `}
     >
       {newsLetters.map((newsletter) => (
@@ -44,11 +52,11 @@ export function NewsLetters() {
               <></>
             ) : (
               <h1 className="px-[10px] m-[10px]">
-                {new Date(newsletter.date).toLocaleString("en-GB", {
-                  timeZone: "Asia/Singapore",
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
+                {new Date(newsletter.date).toLocaleString('en-GB', {
+                  timeZone: 'Asia/Singapore',
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
                 })}
               </h1>
             )}
@@ -61,8 +69,8 @@ export function NewsLetters() {
           <hr
             className={`${
               isAdmin
-                ? "mt-[2px] rounded-full border-[0.1em] border-adminText"
-                : "mt-[2px] rounded-full border-[0.1em] border-parentText"
+                ? 'mt-[2px] rounded-full border-[0.1em] border-adminText'
+                : 'mt-[2px] rounded-full border-[0.1em] border-parentText'
             }`}
           />
         </div>
