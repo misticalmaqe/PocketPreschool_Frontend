@@ -22,7 +22,6 @@ const ProfileHeader = () => {
     if (authenticated && user) {
       getUserInfo();
     }
-    console.log(userInfo);
   }, [user, authenticated]);
 
   return (

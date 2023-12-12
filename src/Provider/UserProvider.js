@@ -65,7 +65,6 @@ const UserContextProvider = ({ children }) => {
       } else if (!isAdmin && authenticated && user && user.id) {
         fetchChildrenInfoParent();
       }
-      console.log(child);
     } catch (error) {
       console.log('failed to fetch children?');
     }

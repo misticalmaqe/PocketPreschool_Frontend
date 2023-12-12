@@ -28,13 +28,11 @@ const StudentList = () => {
                 className="w-20 h-20"
               />
             </div>
-            <div className="px-[20px]">
+            <div className="px-[20px] font-medium">
               <h1 className="font-bold text-[1.3em]">{items.fullName}</h1>
-              <h1 className="font-medium">Birthday: {items.DateOfBirth}</h1>
-              <h1 className="font-medium">Allergies: {items.allergies}</h1>
-              <h1 className="font-medium">
-                Medical History: {items.medicalHistory}
-              </h1>
+              <h1>Birthday: {items.DateOfBirth}</h1>
+              <h1>Allergies: {items.allergies}</h1>
+              <h1>Medical History: {items.medicalHistory}</h1>
             </div>
           </div>
         ))}
