@@ -17,7 +17,8 @@ const Message = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   let { chatroomId } = useParams();
-  const socket = useMemo(() => io("http://localhost:8080"), []);
+  const BEURL = process.env.REACT_APP_BE_URL;
+  const socket = useMemo(() => io(BEURL), []);
 
   const handleSendMessage = useCallback(
     async (e) => {

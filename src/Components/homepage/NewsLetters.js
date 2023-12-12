@@ -1,9 +1,9 @@
-import { useEffect, useContext } from 'react';
-import { UserContext } from '../../Provider/UserProvider';
+import { useEffect, useContext } from "react";
+import { UserContext } from "../../Provider/UserProvider";
 
 //--------------COMPONENTS--------------//
-import { NewsImgCarousel } from './NewsImgCarousel';
-import apiRequest from '../../Api';
+import { NewsImgCarousel } from "./NewsImgCarousel";
+import apiRequest from "../../Api";
 
 export function NewsLetters() {
   const BEURL = process.env.REACT_APP_BE_URL;
@@ -29,8 +29,8 @@ export function NewsLetters() {
     <div
       className={`${
         isAdmin
-          ? 'w-50 text-adminText border-adminText'
-          : 'w-50 text-parentText border-parentText'
+          ? "w-50 text-adminText border-adminText"
+          : "w-50 text-parentText border-parentText"
       }  `}
     >
       {newsLetters.map((newsletter) => (
@@ -44,11 +44,11 @@ export function NewsLetters() {
               <></>
             ) : (
               <h1 className="px-[10px] m-[10px]">
-                {new Date(newsletter.date).toLocaleString('en-GB', {
-                  timeZone: 'Asia/Singapore',
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric',
+                {new Date(newsletter.date).toLocaleString("en-GB", {
+                  timeZone: "Asia/Singapore",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
                 })}
               </h1>
             )}
@@ -61,8 +61,8 @@ export function NewsLetters() {
           <hr
             className={`${
               isAdmin
-                ? 'mt-[2px] rounded-full border-[0.1em] border-adminText'
-                : 'mt-[2px] rounded-full border-[0.1em] border-parentText'
+                ? "mt-[2px] rounded-full border-[0.1em] border-adminText"
+                : "mt-[2px] rounded-full border-[0.1em] border-parentText"
             }`}
           />
         </div>
