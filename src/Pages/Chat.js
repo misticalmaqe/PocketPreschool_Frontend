@@ -10,7 +10,7 @@ function formatDate(dateTimeString) {
   const options = {
     day: "numeric",
     month: "numeric",
-    year: "numeric",
+
     hour: "numeric",
     minute: "numeric",
   };
@@ -81,6 +81,7 @@ const Chat = () => {
                       chatrooms.find((room) => room.childrenId === child.id)
                         ?.createdAt
                     )}
+                    {/*  take create at and last message from chat table */}
                   </div>
                 </li>
                 <hr style={{ width: "100%" }} />
