@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ import ArrowTeach from '../Images/arrow_teacher.png';
 import ArrowParent from '../Images/arrow_parent.png';
 
 const ProfilePage = () => {
-  const { isAdmin } = useContext(UserContext);
+  const { isAdmin, child } = useContext(UserContext);
 
   return (
     <div>
@@ -75,10 +76,25 @@ const ProfilePage = () => {
           </div>
         ) : (
           <div className="bg-white h-screen w-full text-parentText">
-            <div className="w-full p-[20px]">
+            <div className="w-full">
+              {child.map((items) => (
+                <div key={items.id} className="">
+                  <div className="flex flex-row justify-evenly items-center">
+                    <img
+                      src={items.displayPhoto}
+                      alt="display photo"
+                      className="w-10 h-10"
+                    />
+                    <h1 className="text-[1.5em] font-bold p-[20px]">
+                      {items.fullName}
+                    </h1>
+                  </div>
+                  <hr className="rounded-full border-[0.1em] border-parentText" />
+                </div>
+              ))}
               <Link
                 to="/profile/settings"
-                className="flex flex-row justify-between items-center"
+                className="flex flex-row justify-between items-center p-[20px]"
               >
                 <h1 className="text-[1.3em] font-bold">Settings</h1>
                 <img src={ArrowParent} alt="Arrow Icon" className="h-10" />

@@ -98,7 +98,7 @@ const Setting = () => {
         {!isChangePasswordClicked && (
           <div
             onClick={() => setIsChangePasswordClicked(true)}
-            className="p-[10px]"
+            className="p-[10px] cursor-pointer"
           >
             <h1 className="text-[1.5em] text-center">Change Password</h1>
           </div>
@@ -130,7 +130,7 @@ const Setting = () => {
         )}
         <hr className="rounded-full border-[0.1em] border-adminText" />
         <div
-          className="bg-adminBackground text-center p-[10px]"
+          className="bg-adminBackground text-center p-[10px] cursor-pointer"
           onClick={() => logout()}
         >
           <h1 className="text-[2em] text-bold">Logout</h1>
@@ -166,7 +166,7 @@ const Setting = () => {
         {!isChangePasswordClicked && (
           <div
             onClick={() => setIsChangePasswordClicked(true)}
-            className="p-[10px]"
+            className="p-[10px] cursor-pointer"
           >
             <h1 className="text-[1.5em] text-center">Change Password</h1>
           </div>
@@ -198,11 +198,12 @@ const Setting = () => {
         )}
         <hr className="mt-[2px] rounded-full border-[0.1em] border-parentText" />
         <div
-          className="bg-parentBackground text-center p-[10px]"
+          className="bg-parentBackground text-center p-[10px] cursor-pointer"
           onClick={() => logout()}
         >
           <h1 className="text-[2em] text-bold">Logout</h1>
         </div>
+        <hr className="rounded-full border-[0.1em] border-parentText" />
       </div>
     );
   }
