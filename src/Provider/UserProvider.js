@@ -3,7 +3,6 @@ import apiRequest from '../Api/index';
 import { jwtDecode } from 'jwt-decode';
 
 export const UserContext = createContext();
-
 // Define the UserContextProvider component
 const UserContextProvider = ({ children }) => {
   // Global State Variables
@@ -17,7 +16,7 @@ const UserContextProvider = ({ children }) => {
   const [child, setChild] = useState([]);
   const BEURL = process.env.REACT_APP_BE_URL;
 
-  //set user based on local storage
+//set user based on local storage
   const userDetails = () => {
     const authToken = localStorage.getItem('authToken');
     if (authToken !== null) {
@@ -41,6 +40,7 @@ const UserContextProvider = ({ children }) => {
     setChild(allChildren);
   };
 
+
   //-----------FOR PARENT-----------//
   //function to get children info for parent
   const fetchChildrenInfoParent = async () => {
@@ -51,7 +51,7 @@ const UserContextProvider = ({ children }) => {
   useEffect(() => {
     userDetails();
   }, []);
-
+  
   useEffect(() => {
     if (isAdmin && authenticated) {
       fetchChildrenInfoTeacher();
@@ -59,7 +59,7 @@ const UserContextProvider = ({ children }) => {
       fetchChildrenInfoParent();
     }
   }, [isAdmin, authenticated]);
-
+    
   return (
     <UserContext.Provider
       value={{
@@ -85,5 +85,4 @@ const UserContextProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-
 export default UserContextProvider;

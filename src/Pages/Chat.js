@@ -1,14 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
-import apiRequest from '../Api/index';
-import NavBar from '../Components/NavBar';
-import AppHeader from '../Components/AppHeader';
-import Message from '../Pages/Message';
-import { UserContext } from '../Provider/UserProvider';
+import React, { useState, useEffect, useContext } from "react";
+import apiRequest from "../Api/index";
+import NavBar from "../Components/NavBar";
+import AppHeader from "../Components/AppHeader";
+import Message from "../Pages/Message";
+import { UserContext } from "../Provider/UserProvider";
+import { useNavigate } from "react-router-dom";
+
+function formatDate(dateTimeString) {
+  const options = {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+  return new Date(dateTimeString).toLocaleDateString("en-SG", options);
+}
 
 const Chat = () => {
   const { isAdmin, user, child } = useContext(UserContext);
   const [chatrooms, setChatrooms] = useState([]);
-  const [selectedChatroomId, setSelectedChatroomId] = useState(null);
+  const navigate = useNavigate();
   const BEURL = process.env.REACT_APP_BE_URL;
 
   //function to fetch chatrooms from BE for TEACHERS
@@ -19,7 +31,6 @@ const Chat = () => {
     }
   };
 
-  //function to fetch chatrooms from BE for PARENTS
   const fetchChildrensChat = async () => {
     if (user && user.id) {
       //get childrensIds from children table
@@ -35,48 +46,47 @@ const Chat = () => {
     }
   };
 
-  //useEffect to fetch rooms in chat page
   useEffect(() => {
     if (isAdmin === true) {
       fetchTeachersChat();
     } else {
       fetchChildrensChat();
     }
-    console.log(child);
   }, [child, user, isAdmin]);
 
   return (
     <div>
       <AppHeader input="Chat" />
       <NavBar />
-      <div className="flex">
-        {/* Display Chatrooms */}
-        <div className="w-1/4 p-4 border-r">
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-screen p-4  text-center mt-8">
           <h2 className="text-lg font-semibold mb-4">Chatrooms</h2>
-          <ul>
-            {child.data.map((chatroom) => (
-              <li
-                key={chatroom.id}
-                onClick={() => setSelectedChatroomId(chatroom.id)}
-              >
-                {/* Display the properties of each chatroom */}
-                <ul>
-                  {Object.entries(chatroom).map(([key, value]) => (
-                    <li key={key}>
-                      <strong>{key}:</strong> {JSON.stringify(value)}
-                    </li>
-                  ))}
-                </ul>
-              </li>
+          <ul className="list-none">
+            {child.map((child) => (
+              <React.Fragment key={child.id}>
+                <li
+                  onClick={() => navigate(`/chat/${child.id}/Message`)}
+                  className="relative group mb-2 flex justify-between items-center"
+                  style={{ position: "relative", marginBottom: "0.5rem" }}
+                >
+                  <div className="flex items-center">
+                    <div
+                      className="w-4 h-4 bg-blue-500 rounded-full mr-2" // replace code here to remove the circle
+                      // Adjust the size and color of the circle as needed
+                    ></div>
+                    <div>{child.fullName}</div>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {formatDate(
+                      chatrooms.find((room) => room.childrenId === child.id)
+                        ?.createdAt
+                    )}
+                  </div>
+                </li>
+                <hr style={{ width: "100%" }} />
+              </React.Fragment>
             ))}
           </ul>
-        </div>
-
-        {/* Display Messages */}
-        <div className="flex-grow p-4">
-          {selectedChatroomId && (
-            <Message chatroomId={selectedChatroomId} isAdmin={isAdmin} />
-          )}
         </div>
       </div>
     </div>
