@@ -80,22 +80,16 @@ const Message = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-16 flex-grow">
-      <div
-        className="p-4 mb-4 max-w-md overflow-y-auto"
-        style={{ height: "300px", border: "1px solid #ccc" }}
-      >
+    <div className="flex flex-col h-screen">
+      <div className="p-4 mb-4 max-w-screen-xl mx-auto overflow-y-auto flex-grow">
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message-container ${
-              msg.sender === "user" ? "bg-userBackground" : "bg-adminBackground"
+            className={`message-container w-full ${
+              msg.sender === "user" ? "justify-end" : "justify-start"
             }`}
           >
             <div
-              style={{
-                backgroundColor: msg.sender === "user" ? "#008000" : "#4A90E2",
-              }}
               className={`message-bubble p-2 rounded mb-2 ${
                 msg.sender === "user"
                   ? "bg-userBackground"
@@ -108,15 +102,13 @@ const Message = () => {
         ))}
       </div>
 
-      <div
-        className={`flex items-center w-full p-4 ${
-          isAdmin ? "bg-adminBackground" : "bg-userBackground"
-        }`}
-      >
+      <div className="flex-grow" />
+
+      <div className="flex items-center w-full p-4">
         <input
           type="text"
           placeholder="Type your message..."
-          className="border border-green-300 p-2 mr-2 flex-grow"
+          className="border p-2 mr-2 flex-grow"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={handleKeyPress}
