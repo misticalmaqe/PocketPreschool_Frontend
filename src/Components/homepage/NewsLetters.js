@@ -1,9 +1,9 @@
-import { useEffect, useContext } from "react";
-import { UserContext } from "../../Provider/UserProvider";
+import { useEffect, useContext } from 'react';
 
 //--------------COMPONENTS--------------//
-import { NewsImgCarousel } from "./NewsImgCarousel";
-import apiRequest from "../../Api";
+import { UserContext } from '../../Provider/UserProvider';
+import { NewsImgCarousel } from './NewsImgCarousel';
+import apiRequest from '../../Api';
 
 export function NewsLetters() {
   const BEURL = process.env.REACT_APP_BE_URL;
@@ -23,7 +23,7 @@ export function NewsLetters() {
       setNewsLetters(sortedNewsLetters);
     };
     getNewsLetters();
-  }, []);
+  }, [BEURL, setNewsLetters]);
 
   return (
     <div

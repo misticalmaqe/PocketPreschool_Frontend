@@ -17,6 +17,7 @@ import LeaveApplication from './Pages/StaffLeaveApplication';
 import CreateParentAccount from './Pages/CreateParentAccount';
 import Settings from './Pages/Setting';
 import NewsPostPage from './Pages/NewsPostPage';
+import ClassActPostPage from './Pages/ClassActPostPage';
 //import updateFeature from "./Pages/updateFeature";
 //--------------STYLING--------------//
 import './App.css';
@@ -37,6 +38,7 @@ const App = () => {
 
         {/* Class Activity Routes */}
         <Route path="/activity" element={<Activity />} />
+        <Route path="/activity/post" element={<ClassActPostPage />} />
 
         {/* Chat Routes */}
         <Route path="/chat" element={<Chat />} />

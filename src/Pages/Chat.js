@@ -23,6 +23,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const BEURL = process.env.REACT_APP_BE_URL;
 
+  //function to fetch chatrooms from BE for TEACHERS
   const fetchTeachersChat = async () => {
     if (user && user.id) {
       const response = await apiRequest.get(`${BEURL}/chat/teacher/${user.id}`);
@@ -32,10 +33,12 @@ const Chat = () => {
 
   const fetchChildrensChat = async () => {
     if (user && user.id) {
+      //get childrensIds from children table
       const childrenRes = await apiRequest.get(
         `${BEURL}/user/child/${user.id}`
       );
       const childrenIds = childrenRes.data.map((item) => item.id);
+      //fetch chatrooms with childrens Ids
       const response = await apiRequest.get(
         `${BEURL}/chat/child/${childrenIds}`
       );

@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
-import apiRequest from "../Api/index";
-import { jwtDecode } from "jwt-decode";
+import React, { createContext, useState, useEffect } from 'react';
+import apiRequest from '../Api/index';
+import { jwtDecode } from 'jwt-decode';
+
 export const UserContext = createContext();
 // Define the UserContextProvider component
 const UserContextProvider = ({ children }) => {
@@ -10,11 +11,14 @@ const UserContextProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [newsLetters, setNewsLetters] = useState([]);
   const [newsImgs, setNewsImgs] = useState([]);
+  const [classActivity, setClassActivity] = useState([]);
+  const [classActImgs, setClassActImgs] = useState([]);
   const [child, setChild] = useState([]);
   const BEURL = process.env.REACT_APP_BE_URL;
-  //set user based on local storage
+
+//set user based on local storage
   const userDetails = () => {
-    const authToken = localStorage.getItem("authToken");
+    const authToken = localStorage.getItem('authToken');
     if (authToken !== null) {
       const decoded = jwtDecode(authToken);
       setUser({ id: decoded.id, email: decoded.email }); // Set the user using the decoded token payload
@@ -22,6 +26,7 @@ const UserContextProvider = ({ children }) => {
       setAuthenticated(true);
     }
   };
+
   //-----------FOR TEACHER-----------//
   //function to get children info for teacher
   const fetchChildrenInfoTeacher = async () => {
@@ -34,16 +39,19 @@ const UserContextProvider = ({ children }) => {
     const allChildren = getChildren.data;
     setChild(allChildren);
   };
+
+
   //-----------FOR PARENT-----------//
   //function to get children info for parent
   const fetchChildrenInfoParent = async () => {
     const childrenRes = await apiRequest.get(`${BEURL}/user/child/${user.id}`);
-
-    setChild(childrenRes);
+    setChild(childrenRes.data);
   };
+
   useEffect(() => {
     userDetails();
   }, []);
+  
   useEffect(() => {
     if (isAdmin && authenticated) {
       fetchChildrenInfoTeacher();
@@ -51,6 +59,7 @@ const UserContextProvider = ({ children }) => {
       fetchChildrenInfoParent();
     }
   }, [isAdmin, authenticated]);
+    
   return (
     <UserContext.Provider
       value={{
@@ -66,6 +75,10 @@ const UserContextProvider = ({ children }) => {
         setNewsImgs,
         child,
         setChild,
+        classActivity,
+        setClassActivity,
+        classActImgs,
+        setClassActImgs,
       }}
     >
       {children}
