@@ -2,10 +2,10 @@ import { useState, useContext } from 'react';
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 //--------------COMPONENTS--------------//
 import PostHeader from '../Components/PostHeader';
-import apiRequest from '../Api';
 import { UserContext } from '../Provider/UserProvider';
 
 const NewsPostPage = () => {
@@ -25,12 +25,18 @@ const NewsPostPage = () => {
   const sendData = async () => {
     try {
       //create function to upload news letter to database
-      const sendNewsLetter = await apiRequest.post(`${BEURL}/newsletter`, {
-        title: title,
-        date: date || null,
-        description: description,
-        usersId: user.id,
-      });
+      const sendNewsLetter = await axios.post(
+        `${BEURL}/newsletter`,
+        {
+          title: title,
+          date: date || null,
+          description: description,
+          usersId: user.id,
+        },
+        {
+          headers: { Authorization: localStorage.getItem('authToken') },
+        }
+      );
 
       // Upload images and get their download URLs
       const imgUrls = await Promise.all(
@@ -45,10 +51,16 @@ const NewsPostPage = () => {
       //get newsletter id from sendNewsLetter
       const newsLettersId = sendNewsLetter.data.id;
       //upload news letter imgs to db with newsletter id for each img
-      const newNewsImgs = await apiRequest.post(`${BEURL}/newsletter/imgs`, {
-        urls: imgUrls,
-        newsLetterId: newsLettersId,
-      });
+      const newNewsImgs = await axios.post(
+        `${BEURL}/newsletter/imgs`,
+        {
+          urls: imgUrls,
+          newsLetterId: newsLettersId,
+        },
+        {
+          headers: { Authorization: localStorage.getItem('authToken') },
+        }
+      );
       console.log(newNewsImgs.data);
       setNewsLetters((prevNewsLetters) => [...prevNewsLetters, sendNewsLetter]);
       setNewsImgs((prevNewsImgs) => [...prevNewsImgs, newNewsImgs]);
