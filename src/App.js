@@ -1,26 +1,26 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import UserProvider from './Provider/UserProvider';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import UserProvider from "./Provider/UserProvider";
 
 //--------------COMPONENTS--------------//
-import HomePage from './Pages/HomePage';
-import Activity from './Pages/Activity';
-import Chat from './Pages/Chat';
-import Message from './Pages/Message';
-import ProfilePage from './Pages/ProfilePage';
-import ErrorPage from './Pages/ErrorPage';
-import LogInPage from './Pages/LogInPage';
-import ForgotPassword from './Pages/ForgotPassword';
-import StudentList from './Pages/StudentList';
-import Attendance from './Pages/Attendance';
-import LeaveApplication from './Pages/StaffLeaveApplication';
-import CreateParentAccount from './Pages/CreateParentAccount';
-import Settings from './Pages/Setting';
-import NewsPostPage from './Pages/NewsPostPage';
-import ClassActPostPage from './Pages/ClassActPostPage';
+import HomePage from "./Pages/HomePage";
+import Activity from "./Pages/Activity";
+import Chat from "./Pages/Chat";
+import Message from "./Pages/Message";
+import ProfilePage from "./Pages/ProfilePage";
+import ErrorPage from "./Pages/ErrorPage";
+import LogInPage from "./Pages/LogInPage";
+import ForgotPassword from "./Pages/ForgotPassword";
+import StudentList from "./Pages/StudentList";
+import Attendance from "./Pages/Attendance";
+import LeaveApplication from "./Pages/StaffLeaveApplication";
+import CreateParentAccount from "./Pages/CreateParentAccount";
+import Settings from "./Pages/Setting";
+import NewsPostPage from "./Pages/NewsPostPage";
+import ClassActPostPage from "./Pages/ClassActPostPage";
 //import updateFeature from "./Pages/updateFeature";
 //--------------STYLING--------------//
-import './App.css';
+import "./App.css";
 
 const App = () => {
   return (
