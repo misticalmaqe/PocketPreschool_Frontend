@@ -2,11 +2,11 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { UserContext } from '../Provider/UserProvider';
 import ProfileHeader2 from '../Components/profilePage/profileHeader2';
 
-const Message = ({ childName }) => {
+const Message = () => {
   const { isAdmin } = useContext(UserContext);
   const [inputMessage, setInputMessage] = useState('');
   const [chatData, setChatData] = useState([]);
@@ -14,7 +14,9 @@ const Message = ({ childName }) => {
   const BEURL = process.env.REACT_APP_BE_URL;
   const socket = useMemo(() => io(BEURL, { reconnection: true }), []);
 
-  const location = '/chat';
+  const location = useLocation();
+  const childName = location.state?.childName;
+  const navLoc = '/chat';
 
   //function to fetch Data
   const fetchData = async () => {
@@ -50,7 +52,12 @@ const Message = ({ childName }) => {
           }
         );
 
-        socket.emit('send-message', newMessage, chatroomId);
+        const messageWithDate = {
+          text: inputMessage,
+          createdAt: new Date().toISOString(),
+        };
+
+        socket.emit('send-message', messageWithDate, chatroomId);
 
         console.log('New message posted:', newMessage);
         console.log('Message sent to server:', newMessage);
@@ -116,10 +123,9 @@ const Message = ({ childName }) => {
     }
   };
 
-  console.log(chatData);
   return (
     <div className="bg-white h-screen">
-      <ProfileHeader2 input={childName} navigateLoc={location} />
+      <ProfileHeader2 input={childName} navigateLoc={navLoc} />
       <div className="pb-[45px]">
         {chatData.map((msg) => {
           const messageDate = new Date(msg.createdAt);
@@ -134,8 +140,8 @@ const Message = ({ childName }) => {
               key={msg.id}
               className={`${
                 isAdmin === msg.isAdmin
-                  ? 'chat chat-end p-[20px] bg-white'
-                  : 'chat chat-start p-[20px] bg-white'
+                  ? 'chat chat-end p-[10px] bg-white'
+                  : 'chat chat-start p-[10px] bg-white'
               }`}
             >
               <div

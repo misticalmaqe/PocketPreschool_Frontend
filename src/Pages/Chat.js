@@ -1,57 +1,52 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
-import { io } from "socket.io-client";
-import axios from "axios";
-import NavBar from "../Components/NavBar";
-import AppHeader from "../Components/AppHeader";
-import { UserContext } from "../Provider/UserProvider";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { io } from 'socket.io-client';
+import axios from 'axios';
+import NavBar from '../Components/NavBar';
+import ChatHeader from '../Components/ChatHeader';
+import { UserContext } from '../Provider/UserProvider';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function formatDate(dateTimeString) {
   const options = {
-    day: "numeric",
-    month: "numeric",
-    hour: "numeric",
-    minute: "numeric",
+    day: 'numeric',
+    month: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
   };
-  return new Date(dateTimeString).toLocaleDateString("en-SG", options);
+  return new Date(dateTimeString).toLocaleDateString('en-SG', options);
 }
 
 const Chat = () => {
   const { isAdmin, user, child } = useContext(UserContext);
   const [chatrooms, setChatrooms] = useState([]);
   const [combineArray, setCombineArray] = useState([]);
-  const [lastMessageTime, setLastMessageTime] = useState(null);
-  const [inputMessage, setInputMessage] = useState("");
   const [extractedData, setExtractedData] = useState([]);
+  // const [lastMessageTime, setLastMessageTime] = useState(null);
   const navigate = useNavigate();
   const BEURL = process.env.REACT_APP_BE_URL;
-  const socket = useMemo(() => io(BEURL, { reconnection: true }), {});
-  const location = useLocation();
+  const socket = useMemo(() => io(BEURL, { reconnection: true }), [BEURL]);
   const { chatroomId } = useParams();
 
   const fetchTeachersChat = async () => {
     if (user && user.id) {
       const response = await axios.get(`${BEURL}/chat/teacher/${user.id}`, {
-        headers: { Authorization: localStorage.getItem("authToken") },
+        headers: { Authorization: localStorage.getItem('authToken') },
       });
-      console.log("Fetched Teachers Chat:", response.data);
       setChatrooms(response.data);
-      console.log("Chatrooms:", response.data);
     }
   };
 
   const fetchChildrensChat = async () => {
     if (user && user.id) {
       const childrenRes = await axios.get(`${BEURL}/user/child/${user.id}`, {
-        headers: { Authorization: localStorage.getItem("authToken") },
+        headers: { Authorization: localStorage.getItem('authToken') },
       });
       const childrenIds = childrenRes.data.map((item) => item.id);
       const response = await axios.get(`${BEURL}/chat/child/${childrenIds}`, {
-        headers: { Authorization: localStorage.getItem("authToken") },
+        headers: { Authorization: localStorage.getItem('authToken') },
       });
-      console.log("Fetched Children's Chat:", response.data);
       setChatrooms(response.data);
-      console.log("Chatrooms:", response.data);
     }
   };
 
@@ -73,7 +68,6 @@ const Chat = () => {
     if (isDifferentArray) {
       // If arrays are different, update combineArray, lastMessageTime
       setCombineArray(arr3);
-      setLastMessageTime(getLastMessageTime(arr3));
 
       // Load image data for each displayPhoto in arr3
       const newData = arr3
@@ -99,55 +93,48 @@ const Chat = () => {
         });
       });
 
-      // Log the new extracted data and update extractedData state
-      console.log("New Extracted Data:", newData);
       setExtractedData(newData);
     }
   }, [arr3, combineArray]);
 
-  function getLastMessageTime(array) {
-    if (array.length === 0) {
-      return null;
-    }
-
-    const lastMessage = array.reduce((prev, current) =>
-      prev.updatedAt > current.updatedAt ? prev : current
-    );
-
-    return lastMessage ? lastMessage.updatedAt : null;
-  }
-
-  const { timestamp } = location.state || {};
-  console.log("Combine Array:", combineArray);
-  console.log("Extracted Data:", extractedData);
-
   return (
-    <div>
-      <AppHeader input="Chat" />
-      <NavBar />
-      <div className="flex justify-center items-center h-screen">
-        <div className="w-screen p-4 text-center mt-8">
-          <h2 className="text-lg font-semibold mb-4">Chatrooms</h2>
-          <p>
-            Last Message Time:{" "}
-            {timestamp ? formatDate(timestamp) : "No messages"}
-          </p>
-          <ul className="list-none">
-            {extractedData.map((data) => (
-              <React.Fragment key={data.id} childName={data.name}>
-                <li>
-                  {data.name}
-                  <img
-                    src={data.displayPhoto}
-                    alt="display photo"
-                    className="w-[20px] h-[20px]"
-                  />
-                </li>
-              </React.Fragment>
-            ))}
-          </ul>
-        </div>
+    <div
+      className={`${
+        isAdmin ? 'text-adminText' : 'text-parentText'
+      } bg-white font-bold h-screen`}
+    >
+      <ChatHeader input="Chat" />
+      <div className="flex flex-col items-start text-center">
+        {extractedData.map((data) => (
+          <React.Fragment key={data.id}>
+            <div
+              onClick={() =>
+                navigate(`/chat/${data.chatroomId}/Message`, {
+                  state: { chatRoomsId: data.chatroomId, childName: data.name }, // Pass chatRoomsId and children in state
+                })
+              }
+              className="py-[15px] px-[30px] flex items-center"
+            >
+              <div className="rounded-full mr-10">
+                <img
+                  src={data.displayPhoto}
+                  alt="display photo"
+                  className="w-[40px] h-[40px]"
+                />
+              </div>
+              <h1 className="text-[1.5em]">{data.name}</h1>
+            </div>
+            <hr
+              className={`${
+                isAdmin
+                  ? 'rounded-full w-full border-[0.1em] border-adminText'
+                  : 'rounded-full w-full border-[0.1em] border-parentText'
+              }`}
+            />
+          </React.Fragment>
+        ))}
       </div>
+      <NavBar />
     </div>
   );
 };

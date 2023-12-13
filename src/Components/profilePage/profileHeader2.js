@@ -19,7 +19,7 @@ const ProfileHeader2 = ({ input, navigateLoc }) => {
         isAdmin
           ? 'bg-adminBackground text-adminText'
           : 'bg-parentBackground text-parentText'
-      } w-100`}
+      } w-100 sticky top-0 z-10`}
     >
       {isAdmin ? (
         <img
