@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { io } from 'socket.io-client';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import ChatHeader from '../Components/ChatHeader';
 import { UserContext } from '../Provider/UserProvider';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function formatDate(dateTimeString) {
   const options = {
@@ -20,12 +21,11 @@ const Chat = () => {
   const { isAdmin, user, child } = useContext(UserContext);
   const [chatrooms, setChatrooms] = useState([]);
   const [combineArray, setCombineArray] = useState([]);
-  const [lastMessageTime, setLastMessageTime] = useState(null);
   const [extractedData, setExtractedData] = useState([]);
+  // const [lastMessageTime, setLastMessageTime] = useState(null);
   const navigate = useNavigate();
   const BEURL = process.env.REACT_APP_BE_URL;
   const socket = useMemo(() => io(BEURL, { reconnection: true }), [BEURL]);
-  const location = useLocation();
   const { chatroomId } = useParams();
 
   const fetchTeachersChat = async () => {
