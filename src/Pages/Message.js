@@ -2,11 +2,11 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { UserContext } from '../Provider/UserProvider';
 import ProfileHeader2 from '../Components/profilePage/profileHeader2';
 
-const Message = ({ childName }) => {
+const Message = () => {
   const { isAdmin } = useContext(UserContext);
   const [inputMessage, setInputMessage] = useState('');
   const [chatData, setChatData] = useState([]);
@@ -14,7 +14,9 @@ const Message = ({ childName }) => {
   const BEURL = process.env.REACT_APP_BE_URL;
   const socket = useMemo(() => io(BEURL, { reconnection: true }), []);
 
-  const location = '/chat';
+  const location = useLocation();
+  const childName = location.state?.childName;
+  const navLoc = '/chat';
 
   //function to fetch Data
   const fetchData = async () => {
@@ -122,8 +124,8 @@ const Message = ({ childName }) => {
   };
 
   return (
-    <div className="bg-white h-full">
-      <ProfileHeader2 input={childName} navigateLoc={location} />
+    <div className="bg-white h-screen">
+      <ProfileHeader2 input={childName} navigateLoc={navLoc} />
       <div className="pb-[45px]">
         {chatData.map((msg) => {
           const messageDate = new Date(msg.createdAt);

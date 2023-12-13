@@ -19,7 +19,7 @@ const HomePage = () => {
 
   return (
     <div className="bg-white h-screen">
-      <AppHeader input="Home" navigateLoc={location} />
+      <AppHeader input="News Letters" navigateLoc={location} />
       <div className="pb-[123px] flex justify-center">
         <NewsLetters />
       </div>
