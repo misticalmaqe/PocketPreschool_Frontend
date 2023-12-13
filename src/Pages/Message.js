@@ -4,14 +4,17 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../Provider/UserProvider';
+import ProfileHeader2 from '../Components/profilePage/profileHeader2';
 
-const Message = () => {
+const Message = ({ childName }) => {
   const { isAdmin } = useContext(UserContext);
   const [inputMessage, setInputMessage] = useState('');
   const [chatData, setChatData] = useState([]);
   const { chatroomId } = useParams();
   const BEURL = process.env.REACT_APP_BE_URL;
   const socket = useMemo(() => io(BEURL, { reconnection: true }), []);
+
+  const location = '/chat';
 
   //function to fetch Data
   const fetchData = async () => {
@@ -30,8 +33,9 @@ const Message = () => {
   };
 
   //onClick send button function.
-  const postNewMessage = async () => {
+  const postNewMessage = async (e) => {
     try {
+      e.preventDefault();
       if (inputMessage.trim() !== '') {
         const newMessage = { text: inputMessage, sender: 'user' };
         await axios.post(
@@ -51,7 +55,14 @@ const Message = () => {
         console.log('New message posted:', newMessage);
         console.log('Message sent to server:', newMessage);
 
-        setChatData((prevMessages) => [...prevMessages, inputMessage]);
+        setChatData((prevMessages) => [
+          ...prevMessages,
+          {
+            text: inputMessage,
+            isAdmin: isAdmin,
+            createdAt: new Date().toISOString(),
+          },
+        ]);
         setInputMessage('');
       }
     } catch (error) {
@@ -73,7 +84,7 @@ const Message = () => {
     return () => {
       socket.off('receive-message', handleReceiveMessage);
     };
-  }, [socket]);
+  }, [socket, setChatData]);
 
   //
   useEffect(() => {
@@ -105,44 +116,62 @@ const Message = () => {
     }
   };
 
+  console.log(chatData);
   return (
-    <div className="flex flex-col h-screen">
-      <div className="p-4 mb-4 max-w-screen-xl mx-auto overflow-y-auto flex-grow">
-        {chatData.map((msg, index) => (
-          <div
-            key={index}
-            className={`message-container w-full ${
-              msg.sender === 'user' ? 'justify-end' : 'justify-start'
-            }`}
-          >
+    <div className="bg-white h-screen">
+      <ProfileHeader2 input={childName} navigateLoc={location} />
+      <div className="pb-[45px]">
+        {chatData.map((msg) => {
+          const messageDate = new Date(msg.createdAt);
+          const singaporeTime = messageDate.toLocaleString('en-SG', {
+            timeZone: 'Asia/Singapore',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+          return (
             <div
-              className={`message-bubble p-2 rounded mb-2 ${
-                msg.sender === 'user'
-                  ? 'bg-userBackground'
-                  : 'bg-adminBackground'
+              key={msg.id}
+              className={`${
+                isAdmin === msg.isAdmin
+                  ? 'chat chat-end p-[20px] bg-white'
+                  : 'chat chat-start p-[20px] bg-white'
               }`}
             >
-              {msg.text}
+              <div
+                className={`chat-bubble ${
+                  msg.isAdmin
+                    ? 'bg-adminBackground text-adminText'
+                    : 'bg-parentBackground text-parentText'
+                }`}
+              >
+                <h1 className="text-[1.3em]">{msg.text}</h1>
+                <h6 className="text-right text-[0.8em]">{singaporeTime}</h6>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-
-      <div className="flex-grow" />
-
-      <div className="flex items-center w-full p-4">
+      <div className="flex flex-row justify-center fixed bottom-0 w-full">
         <input
           type="text"
           placeholder="Type your message..."
-          className="border p-2 mr-2 flex-grow"
+          className={`${
+            isAdmin
+              ? 'border-none rounded-m placeholder-adminAccent border-adminText bg-adminBackground w-full pl-[10px] text-adminText'
+              : 'border-none rounded-m placeholder-parentAccent border-parentText bg-parentBackground w-full pl-[10px] text-parentText'
+          } focus:outline-none focus:border-nones`}
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={handleKeyPress}
         />
-
         <button
-          onClick={() => postNewMessage()}
-          className="p-2 rounded bg-blue-500 text-white"
+          onClick={(e) => postNewMessage(e)}
+          className={`${
+            isAdmin
+              ? 'bg-adminText text-white cursor-pointer p-3 w-1/5'
+              : 'bg-parentText text-white cursor-pointer p-3 w-1/5'
+          }`}
         >
           Send
         </button>
