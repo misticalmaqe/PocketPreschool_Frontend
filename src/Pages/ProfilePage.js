@@ -1,71 +1,106 @@
-// ProfilePage.js
-import React, { useContext } from 'react';
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+//--------------COMPONENTS--------------//
 import NavBar from '../Components/NavBar';
-import AppHeader from '../Components/AppHeader';
+import ProfileHeader from '../Components/profilePage/profileHeader';
 import { UserContext } from '../Provider/UserProvider';
-import Arrow from '../Images/icons8-right-arrow-50.png';
+import ArrowTeach from '../Images/arrow_teacher.png';
+import ArrowParent from '../Images/arrow_parent.png';
 
 const ProfilePage = () => {
-  const { isAdmin } = useContext(UserContext);
-
-  const buttonStyle = {
-    textDecoration: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'white', // white color
-    color: 'black', // black text color
-    padding: '10px',
-    borderRadius: '5px',
-    margin: '5px 0',
-    width: 'maxwidth', // Adjust the width as needed
-  };
-
-  const iconStyle = {
-    marginLeft: '8px', // Adjust the margin as needed
-  };
+  const { isAdmin, child } = useContext(UserContext);
 
   return (
     <div>
-      <AppHeader input="Profile Page" />
-
+      <ProfileHeader />
       <div className="flex flex-col items-center">
         {isAdmin ? (
-          <>
-            <Link to="/profile/student-list" style={buttonStyle}>
-              <span>{'Student List'}</span>
-              <img src={Arrow} alt="Arrow Icon" style={iconStyle} />
-            </Link>
-            <hr className="my-4" />
-            <Link to="/profile/attendance" style={buttonStyle}>
-              <span>{'Attendance'}</span>
-              <img src={Arrow} alt="Arrow Icon" style={iconStyle} />
-            </Link>
-            <hr className="my-4" />
-            <Link to="/profile/leave-application" style={buttonStyle}>
-              <span>{'Leave Application'}</span>
-              <img src={Arrow} alt="Arrow Icon" style={iconStyle} />
-            </Link>
-            <hr className="my-4" />
-            <Link to="/profile/create-parent-account" style={buttonStyle}>
-              <span>{"Create Parent's Account"}</span>
-              <img src={Arrow} alt="Arrow Icon" style={iconStyle} />
-            </Link>
-            <hr className="my-4" />
-            <Link to="/profile/settings" style={buttonStyle}>
-              <span>{'Setting'}</span>
-              <img src={Arrow} alt="Arrow Icon" style={iconStyle} />
-            </Link>
-            <hr className="my-4" />
-          </>
+          <div className="bg-white h-screen w-full text-[1.3em] text-adminText">
+            <div className="w-full p-[20px]">
+              <Link
+                to="/profile/student-list"
+                className="flex flex-row justify-between items-center"
+              >
+                <h1 className=" font-bold">Student List</h1>
+                <img src={ArrowTeach} alt="Arrow Icon" className="h-10" />
+              </Link>
+            </div>
+            <hr className=" rounded-full border-[0.1em] border-adminText" />
+            <div className="w-full p-[20px]">
+              <Link
+                to="/profile/settings"
+                className="flex flex-row justify-between items-center"
+              >
+                <h1 className=" font-bold">Settings</h1>
+                <img src={ArrowTeach} alt="Arrow Icon" className="h-10" />
+              </Link>
+            </div>
+            <hr className=" rounded-full border-[0.1em] border-adminText" />
+            <div className="w-full p-[20px] flex flex-row justify-between items-center bg-slate-600 text-slate-500">
+              <h1 className=" font-bold">Attendance(future feature)</h1>
+              {/* <Link
+                to="/profile/attendance"
+                className="flex flex-row justify-between items-center"
+              >
+                <h1 className=" font-bold">Attendance</h1>
+                <img src={ArrowTeach} alt="Arrow Icon" className="h-10" />
+              </Link> */}
+            </div>
+            <hr className=" rounded-full border-[0.1em] border-adminText" />
+            <div className="w-full p-[20px] flex flex-row justify-between items-center bg-slate-600 text-slate-500">
+              <h1 className=" font-bold">Leave Application(future feature)</h1>
+              {/* <Link
+                to="/profile/leave-application"
+                className="flex flex-row justify-between items-center"
+              >
+                <h1 className=" font-bold">Leave Application</h1>
+                <img src={ArrowTeach} alt="Arrow Icon" className="h-10" />
+              </Link> */}
+            </div>
+            <hr className=" rounded-full border-[0.1em] border-adminText" />
+            <div className="w-full p-[20px] flex flex-row justify-between items-center bg-slate-600 text-slate-500">
+              <h1 className=" font-bold">
+                Create Parent's Account(future feature)
+              </h1>
+              {/* <Link
+                to="/profile/create-parent-account"
+                className="flex flex-row justify-between items-center"
+              >
+                <h1 className=" font-bold">Create Parent's Account</h1>
+                <img src={ArrowTeach} alt="Arrow Icon" className="h-10" />
+              </Link> */}
+            </div>
+            <hr className=" rounded-full border-[0.1em] border-adminText" />
+          </div>
         ) : (
-          <div className="flex flex-col items-center">
-            <Link to="/profile/settings" style={buttonStyle}>
-              <span>{'Setting'}</span>
-              <img src={Arrow} alt="Arrow Icon" style={iconStyle} />
-            </Link>
-            <hr className="my-4" />
+          <div className="bg-white h-screen w-full text-parentText">
+            <div className="w-full">
+              {child.map((items) => (
+                <div key={items.id} className="">
+                  <div className="flex flex-row justify-evenly items-center">
+                    <img
+                      src={items.displayPhoto}
+                      alt="display photo"
+                      className="w-10 h-10"
+                    />
+                    <h1 className="text-[1.5em] font-bold p-[20px]">
+                      {items.fullName}
+                    </h1>
+                  </div>
+                  <hr className="rounded-full border-[0.1em] border-parentText" />
+                </div>
+              ))}
+              <Link
+                to="/profile/settings"
+                className="flex flex-row justify-between items-center p-[20px]"
+              >
+                <h1 className="text-[1.3em] font-bold">Settings</h1>
+                <img src={ArrowParent} alt="Arrow Icon" className="h-10" />
+              </Link>
+            </div>
+            <hr className=" rounded-full border-[0.1em] border-parentText" />
           </div>
         )}
       </div>

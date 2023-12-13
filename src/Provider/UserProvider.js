@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import apiRequest from '../Api/index';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 export const UserContext = createContext();
 // Define the UserContextProvider component
@@ -16,7 +17,7 @@ const UserContextProvider = ({ children }) => {
   const [child, setChild] = useState([]);
   const BEURL = process.env.REACT_APP_BE_URL;
 
-//set user based on local storage
+  //set user based on local storage
   const userDetails = () => {
     const authToken = localStorage.getItem('authToken');
     if (authToken !== null) {
@@ -31,35 +32,44 @@ const UserContextProvider = ({ children }) => {
   //function to get children info for teacher
   const fetchChildrenInfoTeacher = async () => {
     //get the grade first
-    const getGrade = await apiRequest.get(`${BEURL}/teacherclass/${user.id}`);
+    const getGrade = await axios.get(`${BEURL}/teacherclass/${user.id}`, {
+      headers: { Authorization: localStorage.getItem('authToken') },
+    });
     //get children based on the grade they're in
     const getChildren = await apiRequest.get(
-      `${BEURL}/user/childg/${getGrade.data}`
+      `${BEURL}/user/childg/${getGrade.data}`,
+      {
+        headers: { Authorization: localStorage.getItem('authToken') },
+      }
     );
     const allChildren = getChildren.data;
     setChild(allChildren);
   };
 
-
   //-----------FOR PARENT-----------//
   //function to get children info for parent
   const fetchChildrenInfoParent = async () => {
-    const childrenRes = await apiRequest.get(`${BEURL}/user/child/${user.id}`);
+    const childrenRes = await apiRequest.get(`${BEURL}/user/child/${user.id}`, {
+      headers: { Authorization: localStorage.getItem('authToken') },
+    });
     setChild(childrenRes.data);
   };
 
   useEffect(() => {
-    userDetails();
-  }, []);
-  
-  useEffect(() => {
-    if (isAdmin && authenticated) {
-      fetchChildrenInfoTeacher();
-    } else if (!isAdmin && authenticated) {
-      fetchChildrenInfoParent();
+    if (!authenticated) {
+      userDetails();
     }
-  }, [isAdmin, authenticated]);
-    
+    try {
+      if (isAdmin && authenticated && user && user.id) {
+        fetchChildrenInfoTeacher();
+      } else if (!isAdmin && authenticated && user && user.id) {
+        fetchChildrenInfoParent();
+      }
+    } catch (error) {
+      console.log('failed to fetch children?');
+    }
+  }, [user, isAdmin, authenticated, setChild]);
+
   return (
     <UserContext.Provider
       value={{

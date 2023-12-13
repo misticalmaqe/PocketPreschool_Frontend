@@ -1,23 +1,34 @@
-import { useEffect, useContext, useInsertionEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import axios from 'axios';
 
 //--------------COMPONENTS--------------//;
 import { UserContext } from '../../Provider/UserProvider';
-import apiRequest from '../../Api';
 import { ClassActImgCarousel } from './ClassActImgCarousel';
 
 export function ClassActivities() {
   const BEURL = process.env.REACT_APP_BE_URL;
-  const { user, child, classActivity, setClassActivity, isAdmin } =
-    useContext(UserContext);
+  const {
+    user,
+    child,
+    classActivity,
+    setClassActivity,
+    isAdmin,
+    authenticated,
+  } = useContext(UserContext);
 
   //make function to get classActivities from BE for TEACHER
   const getClassActDataTeachers = async () => {
-    if (user && user.id) {
+    if (authenticated === true && user && user.id) {
       //get grade from teacher class table
-      const gradeRes = await apiRequest.get(`${BEURL}/teacherclass/${user.id}`);
+      const gradeRes = await axios.get(`${BEURL}/teacherclass/${user.id}`, {
+        headers: { Authorization: localStorage.getItem('authToken') },
+      });
       const grade = gradeRes.data;
+
       //get classActivities by grade
-      const classAct = await apiRequest.get(`${BEURL}/classactivity/${grade}`);
+      const classAct = await axios.get(`${BEURL}/classactivity/${grade}`, {
+        headers: { Authorization: localStorage.getItem('authToken') },
+      });
       const sortedClassActs = classAct.data.sort((a, b) => {
         if (a.createdAt && b.createdAt) {
           return new Date(b.createdAt) - new Date(a.createdAt);
@@ -30,10 +41,13 @@ export function ClassActivities() {
 
   //make function to get classActivities from BE for PARENT
   const getClassActDataParent = async () => {
-    if (user && user.id && child && child.id) {
+    if (user && user.id) {
       //get grade from children state
       const grade = child.map((grades) => grades.grade);
-      const classAct = await apiRequest.get(`${BEURL}/classactivity/${grade}`);
+      console.log(grade);
+      const classAct = await axios.get(`${BEURL}/classactivity/${grade}`, {
+        headers: { Authorization: localStorage.getItem('authToken') },
+      });
       const sortedClassActs = classAct.data.sort((a, b) => {
         if (a.createdAt && b.createdAt) {
           return new Date(b.createdAt) - new Date(a.createdAt);
@@ -46,19 +60,20 @@ export function ClassActivities() {
 
   // useEffect to initialize function to get data from BE
   useEffect(() => {
-    if (isAdmin === true) {
+    if (isAdmin && authenticated) {
       getClassActDataTeachers();
-    } else {
+    }
+    if (!isAdmin && authenticated) {
       getClassActDataParent();
     }
-  }, [user, isAdmin]);
+  }, [isAdmin, authenticated]);
 
   return (
     <div
       className={`${
         isAdmin
-          ? 'w-50 text-adminText border-adminText'
-          : 'w-50 text-parentText border-parentText'
+          ? 'grow text-adminText border-adminText'
+          : 'grow text-parentText border-parentText'
       } `}
     >
       {classActivity.map((classAct) => (

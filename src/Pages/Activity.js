@@ -10,7 +10,7 @@ const Activity = () => {
   return (
     <div className="bg-white h-screen">
       <AppHeader input="Class Activity" navigateLoc={location} />
-      <div className="w-80% pb-[123px] flex justify-center">
+      <div className="pb-[123px] flex justify-center">
         <ClassActivities />
       </div>
       <NavBar />

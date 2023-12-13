@@ -41,11 +41,8 @@ const LogInPage = () => {
           password,
         });
         if (response.data.success) {
-          console.log(response.data);
           const authToken = response.data.authToken;
           const refreshToken = response.data.refreshToken;
-          // Set authenticated state
-          setAuthenticated(true);
           // Store token and payload in localStorage
           localStorage.setItem('authToken', authToken);
           localStorage.setItem('refreshToken', refreshToken);
@@ -53,7 +50,8 @@ const LogInPage = () => {
           const decoded = jwtDecode(authToken);
           setUser({ id: decoded.id, email: decoded.email }); // Set the user using the decoded token payload
           setIsAdmin(decoded.isAdmin);
-          navigate('/home');
+          // Set authenticated state
+          setAuthenticated(true);
         }
       } catch (error) {
         // Handle login failure
@@ -61,6 +59,12 @@ const LogInPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (authenticated === true) {
+      navigate('/home');
+    }
+  }, [authenticated]);
 
   if (authenticated) {
     return <Navigate to="/home" />;

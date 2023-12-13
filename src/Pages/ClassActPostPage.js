@@ -2,10 +2,10 @@ import { useState, useContext } from 'react';
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 //--------------COMPONENTS--------------//
 import PostHeader from '../Components/PostHeader';
-import apiRequest from '../Api';
 import { UserContext } from '../Provider/UserProvider';
 import DropdownGrade from '../Components/Activitiespage/DropdownGrade';
 
@@ -27,13 +27,19 @@ const ClassActPostPage = () => {
   const sendData = async () => {
     try {
       //create function to upload news letter to database
-      const sendClassActs = await apiRequest.post(`${BEURL}/classactivity`, {
-        title: title,
-        date: date || null,
-        description: description,
-        grade: grade,
-        usersId: user.id,
-      });
+      const sendClassActs = await axios.post(
+        `${BEURL}/classactivity`,
+        {
+          title: title,
+          date: date || null,
+          description: description,
+          grade: grade,
+          usersId: user.id,
+        },
+        {
+          headers: { Authorization: localStorage.getItem('authToken') },
+        }
+      );
 
       // Upload images and get their download URLs
       const imgUrls = await Promise.all(
@@ -48,11 +54,14 @@ const ClassActPostPage = () => {
       //get newsletter id from sendNewsLetter
       const classActsId = sendClassActs.data.id;
       //upload news letter imgs to db with newsletter id for each img
-      const newClassImgs = await apiRequest.post(
+      const newClassImgs = await axios.post(
         `${BEURL}/classactivity/imgs`,
         {
           urls: imgUrls,
           classActivityId: classActsId,
+        },
+        {
+          headers: { Authorization: localStorage.getItem('authToken') },
         }
       );
       setClassActivity((prevClassActs) => [
