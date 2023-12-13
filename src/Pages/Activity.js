@@ -1,7 +1,21 @@
-import React from "react";
+import React from 'react';
+
+//--------------COMPONENTS--------------//
+import NavBar from '../Components/NavBar';
+import AppHeader from '../Components/AppHeader';
+import { ClassActivities } from '../Components/Activitiespage/ClassActivities';
 
 const Activity = () => {
-  return <h1>Activity page</h1>;
+  const location = '/activity/post';
+  return (
+    <div className="bg-white h-screen">
+      <AppHeader input="Class Activity" navigateLoc={location} />
+      <div className="pb-[123px] flex justify-center">
+        <ClassActivities />
+      </div>
+      <NavBar />
+    </div>
+  );
 };
 
 export default Activity;

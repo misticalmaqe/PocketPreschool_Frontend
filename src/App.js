@@ -1,43 +1,65 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-//import UserProvider from "./Provider/UserProvider";
+import { Routes, Route } from "react-router-dom";
+import UserProvider from "./Provider/UserProvider";
 
-// Import your componets for admin account...
+//--------------COMPONENTS--------------//
+import HomePage from "./Pages/HomePage";
+import Activity from "./Pages/Activity";
+import Chat from "./Pages/Chat";
+import Message from "./Pages/Message";
+import ProfilePage from "./Pages/ProfilePage";
+import ErrorPage from "./Pages/ErrorPage";
 import LogInPage from "./Pages/LogInPage";
 import ForgotPassword from "./Pages/ForgotPassword";
-import HomePage from "./Pages/HomePage";
-import Chat from "./Pages/Chat";
-import Activity from "./Pages/Activity";
-import ProfilePage from "./Pages/ProfilePage";
-import SignUpPage from "./Pages/SignUpPage";
-import ErrorPage from "./Pages/ErrorPage";
-
-//Import you componets from parent account...
-// import { LogInPage } from "./Pages/LogInPage";
-// import { ForgotPassword } from "./Pages/ForgotPassword";
-// import { HomePage } from "./Pages/HomePage";
-// import { Chat } from "./Pages/Chat";
-// import { Activity } from "./Pages/Activity";
-// import { ProfilePage } from "./Pages/ProfilePage";
-// import { ErrorPage } from "./Pages/ErrorPage";
-
+import StudentList from "./Pages/StudentList";
+import Attendance from "./Pages/Attendance";
+import LeaveApplication from "./Pages/StaffLeaveApplication";
+import CreateParentAccount from "./Pages/CreateParentAccount";
+import Settings from "./Pages/Setting";
+import NewsPostPage from "./Pages/NewsPostPage";
+import ClassActPostPage from "./Pages/ClassActPostPage";
+//import updateFeature from "./Pages/updateFeature";
 //--------------STYLING--------------//
 import "./App.css";
 
-// App componets
-export default function App() {
+const App = () => {
   return (
-    // <UserProvider>
-    <Routes>
-      <Route path="/" element={<LogInPage />} />
-      <Route path="/forgetpassword" element={<ForgotPassword />} />
-      <Route path="/HomePage" element={<HomePage />} />
-      <Route path="/chat" element={<Chat />} />
-      <Route path="/activity" element={<Activity />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/signup" element={<SignUpPage />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
-    // </UserProvider>
+    <UserProvider>
+      <Routes>
+        {/* Login Page Routes */}
+        <Route path="/" element={<LogInPage />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="*" element={<ErrorPage />} />
+        <Route path="/updatefeature" element={<updateFeature />} />
+
+        {/* News Letter Routes */}
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/home/post" element={<NewsPostPage />} />
+
+        {/* Class Activity Routes */}
+        <Route path="/activity" element={<Activity />} />
+        <Route path="/activity/post" element={<ClassActPostPage />} />
+
+        {/* Chat Routes */}
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/:chatroomId/Message" element={<Message />} />
+
+        {/* Profile Routes */}
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/student-list" element={<StudentList />} />
+        <Route path="/profile/attendance" element={<Attendance />} />
+        <Route
+          path="/profile/leave-application"
+          element={<LeaveApplication />}
+        />
+        <Route
+          path="/profile/create-parent-account"
+          element={<CreateParentAccount />}
+        />
+        <Route path="/profile/settings" element={<Settings />} />
+      </Routes>
+    </UserProvider>
   );
-}
+};
+
+export default App;
