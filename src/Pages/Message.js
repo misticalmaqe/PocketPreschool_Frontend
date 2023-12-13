@@ -50,7 +50,12 @@ const Message = ({ childName }) => {
           }
         );
 
-        socket.emit('send-message', newMessage, chatroomId);
+        const messageWithDate = {
+          text: inputMessage,
+          createdAt: new Date().toISOString(),
+        };
+
+        socket.emit('send-message', messageWithDate, chatroomId);
 
         console.log('New message posted:', newMessage);
         console.log('Message sent to server:', newMessage);
@@ -116,9 +121,8 @@ const Message = ({ childName }) => {
     }
   };
 
-  console.log(chatData);
   return (
-    <div className="bg-white h-screen">
+    <div className="bg-white h-full">
       <ProfileHeader2 input={childName} navigateLoc={location} />
       <div className="pb-[45px]">
         {chatData.map((msg) => {
@@ -134,8 +138,8 @@ const Message = ({ childName }) => {
               key={msg.id}
               className={`${
                 isAdmin === msg.isAdmin
-                  ? 'chat chat-end p-[20px] bg-white'
-                  : 'chat chat-start p-[20px] bg-white'
+                  ? 'chat chat-end p-[10px] bg-white'
+                  : 'chat chat-start p-[10px] bg-white'
               }`}
             >
               <div
